@@ -4,23 +4,30 @@ import pandas as pd
 import numpy as np
 import re
 import pickle
-# import tensorflow as tf
+from bs4 import BeautifulSoup
+from nltk.corpus import stopwords
+from nltk.stem.porter import PorterStemmer
+import tensorflow as tf
 
 with open('preprocessing_dicts/preprocessing_dicts.pkl', 'rb') as pickle_file:
     reqd_features = pickle.load(pickle_file)
 
-# with open('feature_encoders/one_hot_encoder.pkl', 'rb') as pickle_file:
-#     ohe = pickle.load(pickle_file)
+with open('feature_encoders/one_hot_encoder.pkl', 'rb') as pickle_file:
+    ohe = pickle.load(pickle_file)
 
-# with open('scalers/rec_cnt_scaler.pkl', 'rb')as pickle_file:
-#     rec_cnt_scaler = pickle.load(pickle_file)
-# with open('scalers/sub_char_scaler.pkl', 'rb')as pickle_file:
-#     sub_char_scaler = pickle.load(pickle_file)
-# with open('scalers/content_char_scaler.pkl', 'rb')as pickle_file:
-#     content_char_scaler = pickle.load(pickle_file)
+with open('scalers/rec_cnt_scaler.pkl', 'rb')as pickle_file:
+    rec_cnt_scaler = pickle.load(pickle_file)
+with open('scalers/sub_char_scaler.pkl', 'rb')as pickle_file:
+    sub_char_scaler = pickle.load(pickle_file)
+with open('scalers/content_char_scaler.pkl', 'rb')as pickle_file:
+    content_char_scaler = pickle.load(pickle_file)
 
-# model = tf.keras.models.load_model("dl_model/ann_model.keras")
+with open('vectorizors/tfidf_content.pkl', 'rb')as file:
+    tfidf_content = pickle.load(file)
+with open('vectorizors/tfidf_subject.pkl', 'rb')as file:
+    tfidf_subject = pickle.load(file)
 
+model = tf.keras.models.load_model("dl_model/ann_model.keras")
 
 def return_dicts(email_text, reqd_features=reqd_features):
     data = dict()
@@ -66,87 +73,99 @@ data = column_dropper(data, 'In-Reply-To:')
 
 data['Recievers_count'] = data['To:'].apply(lambda x: len(str(x).split('@')) - 1)
 data = column_dropper(data, 'To:')
-print(data)
 
 data['Sub_Unsub_link'] = np.where(
     (pd.notna(data['List-Subscribe:']) & pd.notna(data['List-Unsubscribe:'])), 1, 0)
 
 data = column_dropper(data, ['List-Subscribe:','List-Unsubscribe:'])
 
-# def add_prec_content(row):
-#     try :
-#         return  row[5:].strip()
-#     except TypeError :
-#         return ""
+def add_prec_content(row):
+    try :
+        return  row[5:].strip()
+    except TypeError :
+        return ""
 
-# data['Prec_content'] = data['Precedence:'].apply(add_prec_content)
-# data
+data['Prec_content'] = data['Precedence:'].apply(add_prec_content)
+data = column_dropper(data, 'Precedence:')
 
-# def parse_text(data, col):
-#         for index, text in enumerate(data[col]):
-#                 try :
-#                         soup = BeautifulSoup(data[col][index], 'lxml')
-#                         parsed_text = soup.text.strip()
-#                 except Exception as ex :
-#                         parsed_text = ""
-#                 finally :
-#                         data[col][index] = parsed_text
-#         return data
+def parse_text(data, col):
+        for index, text in enumerate(data[col]):
+                try :
+                        soup = BeautifulSoup(data[col][index], 'lxml')
+                        parsed_text = soup.text.strip()
+                except Exception as ex :
+                        parsed_text = ""
+                finally :
+                        data[col][index] = parsed_text
+        return data
 
-# data = parse_text(data, 'Content-Transfer-Encoding:')
-# data = parse_text(data, 'Prec_content')
-# data = parse_text(data, 'wrote:')
+data = parse_text(data, 'Content-Transfer-Encoding:')
+data = parse_text(data, 'Prec_content')
+data = parse_text(data, 'wrote:')
 
-# def clean_text(text):
-#     return re.sub(r'[^a-zA-Z0-9\s]', '', text)
-# data['Wrote_content'] = data['wrote:'].apply(clean_text)
+def clean_text(text):
+    return re.sub(r'[^a-zA-Z0-9\s]', '', text)
 
-# data.drop(columns=['wrote:'], inplace=True)
+data['Wrote_content'] = data['wrote:'].apply(clean_text)
+data = column_dropper(data, 'wrote:')
 
-# data['Content-Type:'] = data['Content-Type:'].apply(lambda x : str(x).lower())
-# data['Content-Type:'] = data['Content-Type:'].apply(lambda x: x[5:].split(';')[0].strip() if ';' in str(x) else x)
-# data['Content-Type:'] = data['Content-Type:'].apply(lambda x: 'html' if 'html' in str(x) else ('none' if 'none' in str(x) else 'plain'))
+data['Content-Type:'] = data['Content-Type:'].str.lower()
+data['Content-Type:'] = data['Content-Type:'].str.extract(r'(?:^.{5})?(.*?)(?:;|$)')[0].str.strip()
 
-# encoded_content_type = ohe.transform(data[['Content-Type:']])
-# encoded_df = pd.DataFrame(encoded_content_type, columns=ohe.get_feature_names_out(['Content-Type:']))
-# data['Content_type_html'] = encoded_df['Content-Type:_html'].astype(int)
-# data['Content_type_plain'] = encoded_df['Content-Type:_plain'].astype(int)
-# data.drop(columns=['Content-Type:'], inplace=True)
+# Map content types
+data['Content-Type:'] = np.select(
+    [
+        data['Content-Type:'].str.contains('html', na=False),
+        data['Content-Type:'].str.contains('none', na=False)
+    ],
+    ['html', 'none'],
+    default='plain'
+)
 
-# data = parse_text(data, 'Subject:')
-# data['Subject'] = data['Subject:'].apply(lambda x: str(x).strip())
-# data['Subject'] = data['Subject'].apply(lambda x: "blank" if x == "" else x)
-# data['Full_content'] = data['Content-Transfer-Encoding:'].astype(str) +" "+ data['Prec_content'].astype(str) +" "+ data['Wrote_content'].astype(str)
-# data.drop(columns=['Prec_content','Wrote_content','Content-Transfer-Encoding:', 'Subject:', 'text'], inplace=True)
-# data['Full_content'] = data['Full_content'].apply(lambda x: str(x).strip())
-# data['Full_content'] = data['Full_content'].apply(lambda x: "blank" if x == "" else x)
-# data['content_char'] = data['Full_content'].apply(len)
-# data['sub_char'] = data['Subject'].apply(len)
+encoded_content_type = ohe.transform(data[['Content-Type:']])
+encoded_df = pd.DataFrame(encoded_content_type, columns=ohe.get_feature_names_out(['Content-Type:']))
 
-# recievers_cnt = rec_cnt_scaler.transform(data[['Recievers_count']])
-# data['Recievers_count'] = recievers_cnt
+data['Content_type_html'] = encoded_df['Content-Type:_html'].astype(int)
+data['Content_type_plain'] = encoded_df['Content-Type:_plain'].astype(int)
+data = column_dropper(data, 'Content-Type:')
 
-# sub_char = sub_char_scaler.transform(data[['sub_char']])
-# data['sub_char'] = sub_char
+data = parse_text(data, 'Subject:')
+data['Subject'] = data['Subject:'].astype(str).str.strip().replace('', 'blank')
+data = column_dropper(data, 'Subject:')
 
-# cont_char = content_char_scaler.transform(data[['content_char']])
-# data['content_char'] = cont_char
+data['Full_content'] = data['Content-Transfer-Encoding:'].astype(str) +" "+ data['Prec_content'].astype(str) +" "+ data['Wrote_content'].astype(str)
+data['Full_content'] = data['Full_content'].astype(str).str.strip().replace('', 'blank')
+data = column_dropper(data, ['Prec_content','Wrote_content','Content-Transfer-Encoding:'])
 
-# ps = PorterStemmer()
+data['content_char'] = data['Full_content'].apply(len)
+data['sub_char'] = data['Subject'].apply(len)
 
-# def preprocessing_text(text):
-#     text = re.sub('[^a-zA-Z]', ' ', text).lower()
-#     words = text.split()
-#     words = [ps.stem(word) for word in words if word not in stopwords.words('english') ]
-#     return ' '.join(words)
+recievers_cnt = rec_cnt_scaler.transform(data[['Recievers_count']])
+data['Recievers_count'] = recievers_cnt
 
-# preprocessed_df = data.copy()
-# preprocessed_df['Subject'] = preprocessed_df['Subject'].apply(preprocessing_text)
-# preprocessed_df['Subject'] = preprocessed_df['Subject'].apply(lambda x: "blank" if x.strip() == "" else x)
-# preprocessed_df['Full_content'] = preprocessed_df['Full_content'].apply(preprocessing_text)
-# preprocessed_df['Full_content'] = preprocessed_df['Full_content'].apply(lambda x: "blank" if x.strip() == "" else x)
+sub_char = sub_char_scaler.transform(data[['sub_char']])
+data['sub_char'] = sub_char
 
-# content_vectors = tfidf_content.transform(preprocessed_df['Full_content']).toarray()
-# subject_vectors = tfidf_subject.transform(preprocessed_df['Subject']).toarray()
+cont_char = content_char_scaler.transform(data[['content_char']])
+data['content_char'] = cont_char
 
-# vec_array = np.concatenate((content_vectors, subject_vectors), axis=1)
+ps = PorterStemmer()
+
+def preprocessing_text(text):
+    text = re.sub('[^a-zA-Z]', ' ', str(text)).lower()
+    words = text.split()
+    words = [ps.stem(word) for word in words if word not in stopwords.words('english')]
+    processed = ' '.join(words)
+    return processed if processed.strip() != '' else 'blank'
+
+preprocessed_df = data.copy()
+preprocessed_df['Subject'] = preprocessed_df['Subject'].apply(preprocessing_text)
+preprocessed_df['Full_content'] = preprocessed_df['Full_content'].apply(preprocessing_text)
+
+content_vectors = tfidf_content.transform(preprocessed_df['Full_content']).toarray()
+subject_vectors = tfidf_subject.transform(preprocessed_df['Subject']).toarray()
+
+vec_array = np.concatenate((content_vectors, subject_vectors), axis=1)
+
+pred = round(model.predict(vec_array)[0])
+print(pred)
