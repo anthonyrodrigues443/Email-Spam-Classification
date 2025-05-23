@@ -1,14 +1,21 @@
+# Importing libraries
 import time
-start = time.time()
+initial_start = time.time()
 import pandas as pd
 import numpy as np
 import re
 import pickle
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
+from nltk.stem import WordNetLemmatizer
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import tensorflow as tf
+end = round(time.time()-initial_start, 2)
+print('Libraries imported ✔️\t\t', end)
 
+start = time.time()
+# Loading saved pickle encoders,verctorizors,scalers and dl model
 with open('preprocessing_dicts/preprocessing_dicts.pkl', 'rb') as pickle_file:
     reqd_features = pickle.load(pickle_file)
 
@@ -27,8 +34,17 @@ with open('vectorizors/tfidf_content.pkl', 'rb')as file:
 with open('vectorizors/tfidf_subject.pkl', 'rb')as file:
     tfidf_subject = pickle.load(file)
 
-model = tf.keras.models.load_model("dl_model/ann_model.keras")
+end = round(time.time()-start, 2)
+print('Pickle files imported ✔️\t\t', end)
 
+start = time.time()
+model = tf.keras.models.load_model("dl_model/ann_model.h5")
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+end = round(time.time()-start, 2)
+print('DL model imported ✔️\t\t', end)
+
+
+#preprocessing functions
 def return_dicts(email_text, reqd_features=reqd_features):
     data = dict()
     matches = re.findall(r'\b\w+(?:-\w+)*: ', email_text)
@@ -58,16 +74,44 @@ def column_dropper(data, col):
     transformed_df.drop(columns=col, inplace=True)
     return transformed_df
 
+def add_prec_content(row):
+    try :
+        return  row[5:].strip()
+    except TypeError :
+        return ""
 
+def parse_text(data, col):
+        for index, text in enumerate(data[col]):
+                try : 
+                        soup = BeautifulSoup(data[col][index], 'lxml')
+                        parsed_text = soup.text.strip()
+                except Exception as ex :
+                        parsed_text = ""
+                finally :
+                        data.loc[index, col] = parsed_text
+        return data
+
+def clean_text(text):
+    return re.sub(r'[^a-zA-Z0-9\s]', '', text)
+
+stop_words = stopwords.words('english')
+lem = WordNetLemmatizer()
+
+def preprocessing_text2(text, stopwords=stop_words):
+    text = re.sub('[^a-zA-Z]', ' ', text).lower()
+    words = text.split()
+    words = [lem.lemmatize(word) for word in words if word not in stop_words]
+    return ' '.join(words)
 
 email_text = '''
-From ilug-admin@linux.ie Mon Jul 29 11:28:02 2002 Return-Path: <ilug-admin@linux.ie> Delivered-To: yyyy@localhost.netnoteinc.com Received: from localhost (localhost [127.0.0.1]) by phobos.labs.netnoteinc.com (Postfix) with ESMTP id A13D94414F for <jm@localhost>; Mon, 29 Jul 2002 06:25:11 -0400 (EDT) Received: from phobos [127.0.0.1] by localhost with IMAP (fetchmail-5.9.0) for jm@localhost (single-drop); Mon, 29 Jul 2002 11:25:11 +0100 (IST) Received: from lugh.tuatha.org (root@lugh.tuatha.org [194.125.145.45]) by dogma.slashnull.org (8.11.6/8.11.6) with ESMTP id g6RHn7i17130 for <jm-ilug@jmason.org>; Sat, 27 Jul 2002 18:49:07 +0100 Received: from lugh (root@localhost [127.0.0.1]) by lugh.tuatha.org (8.9.3/8.9.3) with ESMTP id SAA25016; Sat, 27 Jul 2002 18:45:03 +0100 X-Authentication-Warning: lugh.tuatha.org: Host root@localhost [127.0.0.1] claimed to be lugh Received: from mail1.mail.iol.ie (mail1.mail.iol.ie [194.125.2.192]) by lugh.tuatha.org (8.9.3/8.9.3) with ESMTP id SAA24977 for <ilug@linux.ie>; Sat, 27 Jul 2002 18:44:56 +0100 Received: from dialup125-a.ts551.cwt.esat.net ([193.203.140.125] helo=Hobbiton.cod.ie) by mail1.mail.iol.ie with esmtp (Exim 3.35 #1) id 17YVVF-0001W4-00 for ilug@linux.ie; Sat, 27 Jul 2002 18:37:18 +0100 Received: (from cdaly@localhost) by Hobbiton.cod.ie (8.11.6/8.9.3) id g6RDRoO04681 for ilug@linux.ie; Sat, 27 Jul 2002 14:27:50 +0100 Date: Sat, 27 Jul 2002 14:27:49 +0100 From: Conor Daly <conor.daly@oceanfree.net> To: ILUG main list <ilug@linux.ie> Subject: Re: [ILUG] Architecture crossover trouble w RH7.2 (solved) Message-Id: <20020727142749.B4438@Hobbiton.cod.ie> Mail-Followup-To: ILUG main list <ilug@linux.ie> References: <0D443C91DCE9CD40B1C795BA222A729E018854FA@milexc01.maxtor.com> MIME-Version: 1.0 Content-Type: text/plain; charset=us-ascii Content-Disposition: inline User-Agent: Mutt/1.2.5i In-Reply-To: <0D443C91DCE9CD40B1C795BA222A729E018854FA@milexc01.maxtor.com>; from conor_wynne@maxtor.com on Fri, Jul 26, 2002 at 03:56:22PM +0100 Sender: ilug-admin@linux.ie Errors-To: ilug-admin@linux.ie X-Mailman-Version: 1.1 Precedence: bulk List-Id: Irish Linux Users' Group <ilug.linux.ie> X-Beenthere: ilug@linux.ie On Fri, Jul 26, 2002 at 03:56:22PM +0100 or so it is rumoured hereabouts, Wynne, Conor thought: > Surely it would be faster to save you conf files, install it on the box > again, copy back you confs and voila. > All you car about are the confs as the boite has no DATA right? Yeah, but then I'd have to remember _exactly_ which confs I'd modified and they're not all in /etc either... > Thats what I would do, but you sysadmins have to make life as difficult & > complicated as possible ;--) Yup... In this case, I had two issues. 1. I mirrored the disk to give to someone else to work on but the box he has available has only a P1 or P2 processor. 2. My celeron box has been crashing the backup software so I wanted to try out the backup in a different box to make sure it's hardware related. Again, it's also an interesting exercise... > Have you thought about mirroring the system drives? Might save you serious > hassle down the line. Oh, I'm doing that too. This is going to Africa so I'm aiming for as robust as possible with belt, braces and probably an all-in-one jumpsuit! I'll be mirroring the disk but that is worth only so much (eg. lightning strike taking out the disk(s) or system compromise) I'm also going for a backup to CDR with an automated restore http://www.mondorescue.org . The admin out there wouldn't be able to build the system again if the mobo got fried and the replacement was the wrong arch but an i386 compatible install will mean just dropping in the HD and booting (ish)... Conor -- Conor Daly <conor.daly@oceanfree.net> Domestic Sysadmin :-) --------------------- Faenor.cod.ie 2:32pm up 64 days, 23:49, 0 users, load average: 0.00, 0.00, 0.00 Hobbiton.cod.ie 2:19pm up 7 days, 20:56, 1 user, load average: 0.05, 0.02, 0.00 -- Irish Linux Users' Group: ilug@linux.ie http://www.linux.ie/mailman/listinfo/ilug for (un)subscription information. List maintainer: listmaster@linux.ie
+From gort44@excite.com Mon Jun 24 17:54:21 2002 Return-Path: gort44@excite.com Delivery-Date: Tue Jun 4 05:31:16 2002 Received: from mandark.labs.netnoteinc.com ([213.105.180.140]) by dogma.slashnull.org (8.11.6/8.11.6) with ESMTP id g544VFO20182 for <jm@jmason.org>; Tue, 4 Jun 2002 05:31:15 +0100 Received: from wi-poli.poli.cl ([200.54.149.34]) by mandark.labs.netnoteinc.com (8.11.2/8.11.2) with SMTP id g544VC729935; Tue, 4 Jun 2002 05:31:13 +0100 Received: from 216.77.61.89 (unverified [218.5.180.148]) by wi-poli.poli.cl (EMWAC SMTPRS 0.83) with SMTP id <B0000918901@wi-poli.poli.cl>; Tue, 04 Jun 2002 00:14:29 -0400 Message-Id: <B0000918901@wi-poli.poli.cl> To: <chrbader@telecom.at> From: ""irese"" <gort44@excite.com> Subject: Cash in on your home equity Date: Tue, 04 Jun 2002 00:18:34 -1600 MIME-Version: 1.0 Content-Type: text/plain; charset=""Windows-1252"" X-Keywords: Content-Transfer-Encoding: 7bit Mortgage Lenders & Brokers Are Ready to compete for your business. Whether a new home loan is what you seek or to refinance your current home loan at a lower interest rate, we can help! Mortgage rates haven't been this low in years take action now! Refinance your home with us and include all of those pesky credit card bills or use the extra cash for that pool you've always wanted... Where others say NO, we say YES!!! Even if you have been turned down elsewhere, we can help! Easy terms! Our mortgage referral service combines the highest quality loans with the most economical rates and the easiest qualifications! Take just 2 minutes to complete the following form. There is no obligation, all information is kept strictly confidential, and you must be at least 18 years of age. Service is available within the United States only. This service is fast and free. Free information request form: PLEASE VISIT http://builtit4unow.com/pos **************************************************************** Since you have received this message you have either responded to one of our offers in the past or your address has been registered with us. If you wish to ""OPT_OUT"" please visit: http://builtit4unow.com/pos ****************************************************************
 '''
-end = round(time.time()-start, 2)
-
+start = time.time()
 data = pd.DataFrame(pd.Series(email_text).apply(return_dicts).tolist(), columns=reqd_features)
+end = round(time.time()-start, 2)
+print('Extracting required features \t\t', end)
 
-
+start = time.time()
 data['Replied_mail'] = np.where(pd.isna(data['In-Reply-To:']), 0, 1)
 data = column_dropper(data, 'In-Reply-To:')
 
@@ -79,32 +123,13 @@ data['Sub_Unsub_link'] = np.where(
 
 data = column_dropper(data, ['List-Subscribe:','List-Unsubscribe:'])
 
-def add_prec_content(row):
-    try :
-        return  row[5:].strip()
-    except TypeError :
-        return ""
 
 data['Prec_content'] = data['Precedence:'].apply(add_prec_content)
 data = column_dropper(data, 'Precedence:')
 
-def parse_text(data, col):
-        for index, text in enumerate(data[col]):
-                try :
-                        soup = BeautifulSoup(data[col][index], 'lxml')
-                        parsed_text = soup.text.strip()
-                except Exception as ex :
-                        parsed_text = ""
-                finally :
-                        data[col][index] = parsed_text
-        return data
-
 data = parse_text(data, 'Content-Transfer-Encoding:')
 data = parse_text(data, 'Prec_content')
 data = parse_text(data, 'wrote:')
-
-def clean_text(text):
-    return re.sub(r'[^a-zA-Z0-9\s]', '', text)
 
 data['Wrote_content'] = data['wrote:'].apply(clean_text)
 data = column_dropper(data, 'wrote:')
@@ -121,6 +146,7 @@ data['Content-Type:'] = np.select(
     ['html', 'none'],
     default='plain'
 )
+
 
 encoded_content_type = ohe.transform(data[['Content-Type:']])
 encoded_df = pd.DataFrame(encoded_content_type, columns=ohe.get_feature_names_out(['Content-Type:']))
@@ -149,23 +175,28 @@ data['sub_char'] = sub_char
 cont_char = content_char_scaler.transform(data[['content_char']])
 data['content_char'] = cont_char
 
-ps = PorterStemmer()
-
-def preprocessing_text(text):
-    text = re.sub('[^a-zA-Z]', ' ', str(text)).lower()
-    words = text.split()
-    words = [ps.stem(word) for word in words if word not in stopwords.words('english')]
-    processed = ' '.join(words)
-    return processed if processed.strip() != '' else 'blank'
-
 preprocessed_df = data.copy()
-preprocessed_df['Subject'] = preprocessed_df['Subject'].apply(preprocessing_text)
-preprocessed_df['Full_content'] = preprocessed_df['Full_content'].apply(preprocessing_text)
+preprocessed_df['Subject'] = preprocessed_df['Subject'].apply(preprocessing_text2)
+preprocessed_df['Full_content'] = preprocessed_df['Full_content'].apply(preprocessing_text2)
+preprocessed_df.fillna("blank", inplace=True)
+end = round(time.time()-start, 2)
+print('Processed data ✔️\t\t', end)
 
+start = time.time()
 content_vectors = tfidf_content.transform(preprocessed_df['Full_content']).toarray()
 subject_vectors = tfidf_subject.transform(preprocessed_df['Subject']).toarray()
 
-vec_array = np.concatenate((content_vectors, subject_vectors), axis=1)
+X_1 = np.concatenate((content_vectors, subject_vectors), axis=1)
+X_2 = data[['content_char', 'sub_char', 'Replied_mail', 'Recievers_count',	'Sub_Unsub_link','Content_type_html','Content_type_plain']]
+X_2 = X_2.to_numpy()
 
-pred = round(model.predict(vec_array)[0])
+final_X = np.concatenate((X_1, X_2), axis=1)
+print(final_X.shape)
+end = round(time.time()-start, 2)
+print('Vectorization done ✔️\t\t', end)
+
+start = time.time()
+pred = round(model.predict(final_X)[0][0])
+end = round(time.time()-start, 2)
+print('Prediction done  ✔️\t\t', end)
 print(pred)
