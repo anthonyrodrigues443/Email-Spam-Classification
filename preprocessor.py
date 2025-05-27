@@ -1,6 +1,10 @@
 # Importing libraries
 import time
 initial_start = time.time()
+
+import email
+from email import policy
+from email.parser import BytesParser
 import pandas as pd
 import numpy as np
 import re
@@ -9,12 +13,17 @@ from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import os
+
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import tensorflow as tf
+
 end = round(time.time()-initial_start, 2)
-print('Libraries imported ✔️\t\t', end)
+print('✔️ Libraries imported \t\t', end)
 
 start = time.time()
+stop_words = stopwords.words('english')
+lem = WordNetLemmatizer()
+
 # Loading saved pickle encoders,verctorizors,scalers and dl model
 with open('preprocessing_dicts/preprocessing_dicts.pkl', 'rb') as pickle_file:
     reqd_features = pickle.load(pickle_file)
@@ -35,168 +44,219 @@ with open('vectorizors/tfidf_subject.pkl', 'rb')as file:
     tfidf_subject = pickle.load(file)
 
 end = round(time.time()-start, 2)
-print('Pickle files imported ✔️\t\t', end)
+print('✔️ Pickle files imported \t\t', end)
+
 
 start = time.time()
 model = tf.keras.models.load_model("dl_model/ann_model.h5")
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 end = round(time.time()-start, 2)
-print('DL model imported ✔️\t\t', end)
+print('✔️ DL model imported \t\t', end)
+
+# Parse binary email file
+def email_bytesparser(filepath):
+    with open(filepath, 'rb') as f:
+        parsed_email = BytesParser(policy=policy.default).parse(f)
+    return parsed_email
+
+# html parser
+def parse_text(text):
+    try : 
+        soup = BeautifulSoup(text, 'lxml')
+        parsed_text = soup.text.strip()
+    except Exception as ex :
+        parsed_text = ""
+    finally:
+        parsed_text = re.sub(r'\s+', ' ', soup.text.strip())
+    return parsed_text
+
+# Extract required details
+def extract_to_df(parsed_email):
+    body = ""
+    if parsed_email.is_multipart():
+        for part in parsed_email.iter_parts():
+            content_type = part.get_content_type()
+            if content_type == "text/plain":
+                content_type = "plain"
+                body = part.get_content()
+                break
+            elif content_type == "text/html":
+                content_type = "html"
+                body = part.get_content()
+    else:
+        content_type = parsed_email.get_content_type()
+        body = parsed_email.get_content()
+
+    recievers = parsed_email['To']
+    subject = parsed_email['Subject']
+    precedence = parsed_email['Precedence']
+    parsed_email_text = parse_text(body)
+    content = parsed_email_text
+    list_unsub = parsed_email['List-Unsubscribe']
+    replied_mail = parsed_email['Reply-To']
+    list_sub = parsed_email['List-Subscribe']
+
+    # Prepare the data as a list of one row
+    data = pd.DataFrame([{
+        'To': recievers,
+        'Subject': subject,
+        'Content-type': content_type,
+        'Precendence': precedence,
+        'Full_content': content,
+        'List-unsubscribe': list_unsub,
+        'List-subscribe': list_sub,
+        'In-reply-to': replied_mail
+    }])
+
+    return data
 
 
-#preprocessing functions
-def return_dicts(email_text, reqd_features=reqd_features):
-    data = dict()
-    matches = re.findall(r'\b\w+(?:-\w+)*: ', email_text)
-    matches = [match.strip() for match in matches]
-    all_matches = ['From:']
-    all_matches.extend(matches)
-    split_text = re.split(r'\b\w+(?:-\w+)*: ', email_text)
-    for i, j in zip(all_matches, split_text):
-        for k in reqd_features:
-            if k in i:
-                data[i] = j
-    return (
-        data.get('To:', None),
-        data.get('Subject:', None),
-        data.get('Content-Type:', None),
-        data.get('Precedence:', None),
-        data.get('Content-Transfer-Encoding:', None),
-        data.get('List-Unsubscribe:', None),
-        data.get('List-Subscribe:', None),
-        data.get('In-Reply-To:', None),
-        data.get('wrote:', None),
-    )
-
-
+# drop unwanted feature
 def column_dropper(data, col):
     transformed_df = data.copy()
     transformed_df.drop(columns=col, inplace=True)
     return transformed_df
 
-def add_prec_content(row):
-    try :
-        return  row[5:].strip()
-    except TypeError :
-        return ""
 
-def parse_text(data, col):
-        for index, text in enumerate(data[col]):
-                try : 
-                        soup = BeautifulSoup(data[col][index], 'lxml')
-                        parsed_text = soup.text.strip()
-                except Exception as ex :
-                        parsed_text = ""
-                finally :
-                        data.loc[index, col] = parsed_text
-        return data
+# Text cleaners
+extra_space_remover = lambda x: re.sub(r'\s+', ' ', str(x)).strip() if pd.notna(x) else np.nan
 
 def clean_text(text):
-    return re.sub(r'[^a-zA-Z0-9\s]', '', text)
+    if pd.isna(text):
+        return np.nan
+    else :
+        cleaned_text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
+        if cleaned_text.strip() != '':
+            return extra_space_remover(cleaned_text)
+        else :
+            return np.nan
 
-stop_words = stopwords.words('english')
-lem = WordNetLemmatizer()
-
-def preprocessing_text2(text, stopwords=stop_words):
+# lemmatization and eliminating stopwords
+def processing_text(text, stopwords=stop_words):
     text = re.sub('[^a-zA-Z]', ' ', text).lower()
     words = text.split()
     words = [lem.lemmatize(word) for word in words if word not in stop_words]
     return ' '.join(words)
 
-email_text = '''
-From gort44@excite.com Mon Jun 24 17:54:21 2002 Return-Path: gort44@excite.com Delivery-Date: Tue Jun 4 05:31:16 2002 Received: from mandark.labs.netnoteinc.com ([213.105.180.140]) by dogma.slashnull.org (8.11.6/8.11.6) with ESMTP id g544VFO20182 for <jm@jmason.org>; Tue, 4 Jun 2002 05:31:15 +0100 Received: from wi-poli.poli.cl ([200.54.149.34]) by mandark.labs.netnoteinc.com (8.11.2/8.11.2) with SMTP id g544VC729935; Tue, 4 Jun 2002 05:31:13 +0100 Received: from 216.77.61.89 (unverified [218.5.180.148]) by wi-poli.poli.cl (EMWAC SMTPRS 0.83) with SMTP id <B0000918901@wi-poli.poli.cl>; Tue, 04 Jun 2002 00:14:29 -0400 Message-Id: <B0000918901@wi-poli.poli.cl> To: <chrbader@telecom.at> From: ""irese"" <gort44@excite.com> Subject: Cash in on your home equity Date: Tue, 04 Jun 2002 00:18:34 -1600 MIME-Version: 1.0 Content-Type: text/plain; charset=""Windows-1252"" X-Keywords: Content-Transfer-Encoding: 7bit Mortgage Lenders & Brokers Are Ready to compete for your business. Whether a new home loan is what you seek or to refinance your current home loan at a lower interest rate, we can help! Mortgage rates haven't been this low in years take action now! Refinance your home with us and include all of those pesky credit card bills or use the extra cash for that pool you've always wanted... Where others say NO, we say YES!!! Even if you have been turned down elsewhere, we can help! Easy terms! Our mortgage referral service combines the highest quality loans with the most economical rates and the easiest qualifications! Take just 2 minutes to complete the following form. There is no obligation, all information is kept strictly confidential, and you must be at least 18 years of age. Service is available within the United States only. This service is fast and free. Free information request form: PLEASE VISIT http://builtit4unow.com/pos **************************************************************** Since you have received this message you have either responded to one of our offers in the past or your address has been registered with us. If you wish to ""OPT_OUT"" please visit: http://builtit4unow.com/pos ****************************************************************
-'''
-start = time.time()
-data = pd.DataFrame(pd.Series(email_text).apply(return_dicts).tolist(), columns=reqd_features)
-end = round(time.time()-start, 2)
-print('Extracting required features \t\t', end)
+def feature_engineering1(data):
+    #Creating New bool feature 'Replied_mail'
+    data['Replied_mail'] = np.where(pd.isna(data['In-reply-to']), 0, 1)
+    data = column_dropper(data, 'In-reply-to')
 
-start = time.time()
-data['Replied_mail'] = np.where(pd.isna(data['In-Reply-To:']), 0, 1)
-data = column_dropper(data, 'In-Reply-To:')
+    #Creating New numeric feature 'Recievers_count'
+    data['Recievers_count'] = data['To'].apply(lambda x: len(str(x).split('@')) - 1)
+    data = column_dropper(data, 'To')
 
-data['Recievers_count'] = data['To:'].apply(lambda x: len(str(x).split('@')) - 1)
-data = column_dropper(data, 'To:')
+    #Creating New bool feature 'Sub_Unsub_link'
+    data['Sub_Unsub_link'] = np.where(
+        (pd.notna(data['List-subscribe']) & pd.notna(data['List-unsubscribe'])), 1, 0)
+    data = column_dropper(data, ['List-subscribe','List-unsubscribe'])
+    
+    # Cleaning Content-Type: feature
+    def extract_cont_type(text):
+        if pd.isna(text):
+            return "none"
+        elif 'html' in text :
+            return 'html'
+        elif 'plain' in text :
+            return 'plain'
+        else :
+            return "none"
+    
+    data['Content-type'] = data['Content-type'].apply(extract_cont_type)
+    
+    # Creating new numeric features "sub_char" & "content_char"
+    data['content_char'] = data['Full_content'].apply(len)
+    data['sub_char'] = data['Subject'].apply(len)
+    return data
 
-data['Sub_Unsub_link'] = np.where(
-    (pd.notna(data['List-Subscribe:']) & pd.notna(data['List-Unsubscribe:'])), 1, 0)
+# Encoding categorical features
+def feature_encoding(data):
+    encoded_content_type = ohe.transform(data[['Content-type']])
+    encoded_df = pd.DataFrame(encoded_content_type, columns=ohe.get_feature_names_out(['Content-type']))
 
-data = column_dropper(data, ['List-Subscribe:','List-Unsubscribe:'])
+    data['Content_type_html'] = encoded_df['Content-type_html'].astype(int)
+    data['Content_type_plain'] = encoded_df['Content-type_plain'].astype(int)
+    data = column_dropper(data, 'Content-type')
+    return data
 
+# Scaling features with values > 1 or < 0
+def feature_scaling(data):
+    recievers_cnt = rec_cnt_scaler.transform(data[['Recievers_count']])
+    data['Recievers_count'] = recievers_cnt
 
-data['Prec_content'] = data['Precedence:'].apply(add_prec_content)
-data = column_dropper(data, 'Precedence:')
+    sub_char = sub_char_scaler.transform(data[['sub_char']])
+    data['sub_char'] = sub_char
 
-data = parse_text(data, 'Content-Transfer-Encoding:')
-data = parse_text(data, 'Prec_content')
-data = parse_text(data, 'wrote:')
+    cont_char = content_char_scaler.transform(data[['content_char']])
+    data['content_char'] = cont_char
+    return data
 
-data['Wrote_content'] = data['wrote:'].apply(clean_text)
-data = column_dropper(data, 'wrote:')
+# Applying lemmatization of text features
+def apply_lemmatization(data):
+    data['Subject'] = data['Subject'].apply(processing_text)
+    data['Full_content'] = data['Full_content'].apply(processing_text)
+    data.fillna("blank", inplace=True)
+    return data
 
-data['Content-Type:'] = data['Content-Type:'].str.lower()
-data['Content-Type:'] = data['Content-Type:'].str.extract(r'(?:^.{5})?(.*?)(?:;|$)')[0].str.strip()
+# Vectorization of text features
+def vectorization(data):
+    content_vectors = tfidf_content.transform(data['Full_content']).toarray()
+    subject_vectors = tfidf_subject.transform(data['Subject']).toarray()
+    return content_vectors, subject_vectors, data
+    
+# Concatenating the vectors of texts and numeric features
+def data_concatenation(content_vectors, subject_vectors, data):
+    X_1 = np.concatenate((content_vectors, subject_vectors), axis=1)
+        
+    X_2 = data[['content_char', 'sub_char', 'Replied_mail', 'Recievers_count',	'Sub_Unsub_link','Content_type_html','Content_type_plain']]
+    X_2 = X_2.to_numpy()
 
-# Map content types
-data['Content-Type:'] = np.select(
-    [
-        data['Content-Type:'].str.contains('html', na=False),
-        data['Content-Type:'].str.contains('none', na=False)
-    ],
-    ['html', 'none'],
-    default='plain'
-)
+    final_X = np.concatenate((X_1, X_2), axis=1)
+    return final_X
 
+def pipeline(filepath):
+    start = time.time()
+    parsed_mail = email_bytesparser(filepath)
+    end = round(time.time()-start, 2)
+    print('✔️ Email binary file parsing \t\t', end)
+    start = time.time()
+    data = extract_to_df(parsed_mail)
+    print(data)
+    end = round(time.time()-start, 2)
+    print('✔️ Extracting required features in tabular form \t\t', end)
+    start = time.time()
+    data = feature_engineering1(data)
+    end = round(time.time()-start, 2)
+    print('✔️ Extracting numeric features \t\t', end)
+    start = time.time()
+    data = feature_encoding(data)
+    end = round(time.time()-start, 2)
+    print('✔️ Encoding categorical features \t\t', end)
+    start = time.time()
+    data = feature_scaling(data)
+    end = round(time.time()-start, 2)
+    print('✔️ Scaling features not in range (1,0) \t\t', end)
+    start = time.time()
+    data = apply_lemmatization(data)
+    print(data)
+    end = round(time.time()-start, 2)
+    print('✔️ Lemmation of text \t\t', end)
+    start = time.time()
+    content_vectors, subject_vectors, data = vectorization(data)
+    end = round(time.time()-start, 2)
+    print('✔️ Vectorization of text \t\t', end)
+    start = time.time()
+    data = data_concatenation(content_vectors, subject_vectors, data)
+    end = round(time.time()-start, 2)
+    print('✔️ Concatenating vectors and numeric features \t\t', end)
+    return data
 
-encoded_content_type = ohe.transform(data[['Content-Type:']])
-encoded_df = pd.DataFrame(encoded_content_type, columns=ohe.get_feature_names_out(['Content-Type:']))
-
-data['Content_type_html'] = encoded_df['Content-Type:_html'].astype(int)
-data['Content_type_plain'] = encoded_df['Content-Type:_plain'].astype(int)
-data = column_dropper(data, 'Content-Type:')
-
-data = parse_text(data, 'Subject:')
-data['Subject'] = data['Subject:'].astype(str).str.strip().replace('', 'blank')
-data = column_dropper(data, 'Subject:')
-
-data['Full_content'] = data['Content-Transfer-Encoding:'].astype(str) +" "+ data['Prec_content'].astype(str) +" "+ data['Wrote_content'].astype(str)
-data['Full_content'] = data['Full_content'].astype(str).str.strip().replace('', 'blank')
-data = column_dropper(data, ['Prec_content','Wrote_content','Content-Transfer-Encoding:'])
-
-data['content_char'] = data['Full_content'].apply(len)
-data['sub_char'] = data['Subject'].apply(len)
-
-recievers_cnt = rec_cnt_scaler.transform(data[['Recievers_count']])
-data['Recievers_count'] = recievers_cnt
-
-sub_char = sub_char_scaler.transform(data[['sub_char']])
-data['sub_char'] = sub_char
-
-cont_char = content_char_scaler.transform(data[['content_char']])
-data['content_char'] = cont_char
-
-preprocessed_df = data.copy()
-preprocessed_df['Subject'] = preprocessed_df['Subject'].apply(preprocessing_text2)
-preprocessed_df['Full_content'] = preprocessed_df['Full_content'].apply(preprocessing_text2)
-preprocessed_df.fillna("blank", inplace=True)
-end = round(time.time()-start, 2)
-print('Processed data ✔️\t\t', end)
-
-start = time.time()
-content_vectors = tfidf_content.transform(preprocessed_df['Full_content']).toarray()
-subject_vectors = tfidf_subject.transform(preprocessed_df['Subject']).toarray()
-
-X_1 = np.concatenate((content_vectors, subject_vectors), axis=1)
-X_2 = data[['content_char', 'sub_char', 'Replied_mail', 'Recievers_count',	'Sub_Unsub_link','Content_type_html','Content_type_plain']]
-X_2 = X_2.to_numpy()
-
-final_X = np.concatenate((X_1, X_2), axis=1)
-print(final_X.shape)
-end = round(time.time()-start, 2)
-print('Vectorization done ✔️\t\t', end)
-
-start = time.time()
-pred = round(model.predict(final_X)[0][0])
-end = round(time.time()-start, 2)
-print('Prediction done  ✔️\t\t', end)
-print(pred)
+def predictor(data):
+    start = time.time()
+    pred = model.predict(data)
+    print(pred)
+    pred = round(pred[0][0], 2)
+    end = round(time.time()-start, 2)
+    print('✔️Prediction \t\t', end)
+    return pred
