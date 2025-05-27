@@ -125,7 +125,7 @@ def clean_text(text):
     if pd.isna(text):
         return np.nan
     else :
-        cleaned_text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
+        cleaned_text = re.sub(r'[^a-zA-Z\s]', ' ', text)
         if cleaned_text.strip() != '':
             return extra_space_remover(cleaned_text)
         else :
@@ -222,7 +222,6 @@ def pipeline(filepath):
     print('✔️ Email binary file parsing \t\t', end)
     start = time.time()
     data = extract_to_df(parsed_mail)
-    print(data)
     end = round(time.time()-start, 2)
     print('✔️ Extracting required features in tabular form \t\t', end)
     start = time.time()
@@ -239,7 +238,6 @@ def pipeline(filepath):
     print('✔️ Scaling features not in range (1,0) \t\t', end)
     start = time.time()
     data = apply_lemmatization(data)
-    print(data)
     end = round(time.time()-start, 2)
     print('✔️ Lemmation of text \t\t', end)
     start = time.time()
@@ -255,7 +253,6 @@ def pipeline(filepath):
 def predictor(data):
     start = time.time()
     pred = model.predict(data)
-    print(pred)
     pred = round(pred[0][0], 2)
     end = round(time.time()-start, 2)
     print('✔️Prediction \t\t', end)
