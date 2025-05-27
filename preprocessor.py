@@ -24,10 +24,6 @@ start = time.time()
 stop_words = stopwords.words('english')
 lem = WordNetLemmatizer()
 
-# Loading saved pickle encoders,verctorizors,scalers and dl model
-with open('preprocessing_dicts/preprocessing_dicts.pkl', 'rb') as pickle_file:
-    reqd_features = pickle.load(pickle_file)
-
 with open('feature_encoders/one_hot_encoder.pkl', 'rb') as pickle_file:
     ohe = pickle.load(pickle_file)
 
