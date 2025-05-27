@@ -1,0 +1,297 @@
+Delivered-To: anthonyrodrigues443@gmail.com
+Received: by 2002:a05:6f02:208e:b0:7f:5b14:4a22 with SMTP id f14csp2649800rcd;
+        Fri, 23 May 2025 08:28:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEhpMtpnlCA2dp7Z5kn4AspwKtt37665xTWY0cYPf8TuYVFCtYGLsdQJfIALtSMcCDUn9c3
+X-Received: by 2002:a05:6102:4194:b0:4dd:b259:ef34 with SMTP id ada2fe7eead31-4dfa6bc2153mr26748411137.10.1748014139512;
+        Fri, 23 May 2025 08:28:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1748014139; cv=none;
+        d=google.com; s=arc-20240605;
+        b=beUx7OHePAEp1M6o7gqkB0DodvIzrr6vp8cX07iv+i/S+q556QbLQndq6eqb9V4F/F
+         muYvEyQdyYs/wObL/YdJhXNlPEsbeZ9Nb3cr+5JrNdapqPApBHcoSEy0uxBvc4p+oKRK
+         b9dAHaDMfvNPJKbwt/m492QKZGFHumqtC+gAdmTESPQzlr2OLOQkmp92oME77vsUC21L
+         KUJgJU20KZOFbFRHIcupYI628BDbEkF56FYiBRrpOQoHMhMN8A3wAP2RqEC8ZyUuDfok
+         OR3DIme20P4BLzbGH3gxdzw3uoJ/HFdqR2UAG3qgrbyg+wb7L5O0PD5VARnCrmVpW1XY
+         RR7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=feedback-id:message-id:date:content-language:mime-version:reply-to
+         :from:to:subject:list-unsubscribe:dkim-signature
+         :freelancer-domain-signer;
+        bh=gg4MJDUyuVTKXzOjEgssHPQxV1Gqk0Yfl8h4KDImlOc=;
+        fh=984w1zFwtPYUJ46wegq7v4AQ0xSNrLZKV4FEBsui18c=;
+        b=d0CydcUCnIWk9rQhm0hk920X0pL7W7Kd6ZKDzmQTmmLmzSiSxFeq5aEPdjMY6Mc9Nw
+         ib6k2zu4MIkd0K3nYXmP6uKzW5yjsnXZ2FtI4zk0pc4L/9kO0Mjs/vjQF5gKJaNwWlO9
+         1kC+HlKPbj6yaC6aXLjSB7gm9SQQ4hTAzZS4WAVXdD1DxmNQ4bAUOZ32+yR3NR1i28ES
+         IPvH9ZVROWikggUgz9yHIyQx2QVhtqNrkeG9fBN/9n5wLQGOKWiHPRFAOrFryHGk0YRv
+         DYa9MyJlwaiFbj8t7fOVN3jUX2eDDYH/2g79f/0bq0T3B09lo3GWwlZyHuHTF6eZcjVh
+         zI+A==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass (test mode) header.i=@freelancer.com header.s=mail header.b=KbIkdq1h;
+       spf=pass (google.com: domain of messages@notifications.freelancer.com designates 174.129.202.232 as permitted sender) smtp.mailfrom=messages@notifications.freelancer.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=notifications.freelancer.com
+Return-Path: <messages@notifications.freelancer.com>
+Received: from mail002.use.t2.freelancer.com (mail002.use.t2.freelancer.com. [174.129.202.232])
+        by mx.google.com with UTF8SMTPS id ada2fe7eead31-4dfa66985d9si3967784137.68.2025.05.23.08.28.59
+        for <anthonyrodrigues443@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 May 2025 08:28:59 -0700 (PDT)
+Received-SPF: pass (google.com: domain of messages@notifications.freelancer.com designates 174.129.202.232 as permitted sender) client-ip=174.129.202.232;
+Authentication-Results: mx.google.com;
+       dkim=pass (test mode) header.i=@freelancer.com header.s=mail header.b=KbIkdq1h;
+       spf=pass (google.com: domain of messages@notifications.freelancer.com designates 174.129.202.232 as permitted sender) smtp.mailfrom=messages@notifications.freelancer.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=notifications.freelancer.com
+freelancer-domain-signer: signer-01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=freelancer.com;
+ i=@freelancer.com; q=dns/txt; s=mail; t=1748014139; h=subject : to :
+ from : date; bh=E7XDF9GUnq7atxE3C73+zTRJJxGkx/iZjNu81GxYMc0=;
+ b=KbIkdq1huyPjf0+x3Z1yAZcTQqlSpXs0r/B4m6AXp+PNF2496anZSsVJfzSv/It78aSCo
+ eMkGxd67MxqOb+AiLu+4rUSPrjWjvuH8mYCEtQ+1rzAfBHeo4B5VzvAK61lgzvQGrMqh3BM
+ wvK9g0qf7SooJBgxSql+GNsQ9vFr63U=
+List-Unsubscribe: 
+ <http://www.freelancer.com/bl-email/unsubscribe.php?id=67297673&token=69132076222602e9f86b3f606d5673e3&subject=Unsubscribe-New%2Bmessages%2Bfrom%2BNicholas%2BF.-67297673>
+Subject: New messages from Nicholas F.
+To: anthonyrodrigues443@gmail.com
+From: Nicholas F. via Freelancer <messages@notifications.freelancer.com>
+Reply-To: Nicholas F. via Freelancer
+ <riksl3su62qtebtdljzwlgs5olzs5r6gc360582685+1748014139@reply.freelancer.com>
+MIME-version: 1.0
+Content-language: en
+X-Priority: 3 (Normal)
+X-Accept-Language: en
+Content-Type: multipart/alternative;
+ 	boundary="b1_a4012ee97df7ce32f5fedb057b061b04"
+Date: Fri, 23 May 2025 11:28:59 -0400
+Message-Id: <noreply+mailer-6830943b1baee5.79273581@freelancer.com>
+Feedback-ID: 
+ email|messaging/notification/digest:user|67297673:tier|lpcn:freelancer
+
+--b1_a4012ee97df7ce32f5fedb057b061b04
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+
+
+(https://www.freelancer.com/)
+
+Nicholas F. (https://www.freelancer.com/users/login-quick.php?token=3D5115=
+e812b9de952e82e792aef0bf0840d6f3954c1bf898887c8e7e9353776c5b&url=3D%2Fuser=
+s%2F76737736.html&user_id=3D67297673&expire_at=3D1753198139&uniqid=3D67297=
+673-490668-6830943b-f92874be)
+
+Profile Picture of Freelancer
+
+Hello Anthony! I'm a sales agent for Freelancer in the Membership Team, =
+and I'm glad to assist you today. I see that you=E2=80=99re experienced in =
+machine learning and deep learning, which is fantastic!
+
+Since you=E2=80=99re keen on solving problems, I believe our membership =
+plans can really help enhance your freelance experience and boost your =
+earnings. With a membership, you can access additional bids, which =
+translates to more opportunities to work on projects.
+
+For instance, our **Plus Plan** offers 100 bids a month, client engagement =
+features, and more=E2=80=94just what you need to maximize your project =
+applications. The **Professional Plan** could be even better, giving you =
+300 bids each month along with insights on your bids to optimize your =
+approach.
+
+Would you like to know more about specific plans and their pricing?
+
+8:56: PM IST
+
+View Messages =E2=86=92 (https://www.freelancer.com/users/login-quick.php?=
+token=3D04fe0040642caad05620aa3076459b679bc05412ad382fda8aba47b565b7f2cd&u=
+rl=3D%2Fmessages%2Fthread%2F360582685&user_id=3D67297673&expire_at=3D17531=
+98139&uniqid=3D67297673-490668-6830943b-f92874be)
+
+Or send a message to Nicholas F. (https://www.freelancer.com/users/login-q=
+uick.php?token=3D5115e812b9de952e82e792aef0bf0840d6f3954c1bf898887c8e7e935=
+3776c5b&url=3D%2Fusers%2F76737736.html&user_id=3D67297673&expire_at=3D1753=
+198139&uniqid=3D67297673-490668-6830943b-f92874be) by replying to this =
+email.
+
+Your email address must be linked to your Freelancer.com account.
+
+=C2=A9 2025 Freelancer Technology Pty Limited. All Rights Reserved.
+
+Level 37, 225 George Street, Sydney, NSW 2000, Australia
+
+Privacy Policy (https://www.freelancer.com/page.php?p=3Dinfo%2Fprivacy)  | =
+ Terms and Conditions =
+(https://www.freelancer.com/page.php?p=3Dinfo%2Fterms)  |  Unsubscribe =
+(https://www.freelancer.com/users/email/subscriptions.php?token=3DeyJhbGci=
+OiJIUzI1NiIsInR5cCI6IkZyZWVsYW5jZXJcXEdBRlxcQ29yZVxcSldUXFxKV1QifQ.eyJpZCI=
+6IjY3Mjk3NjczIiwic3ViIjoidW5zdWJzY3JpYmUiLCJpYXQiOjE3NDgwMTQxMzl9.gWULgRZL=
+QysZ-nUAvM9EafUgFq40KRa3YoDLfqqO3Gw&target_setting=3Dstaff_message)  |  =
+Get Support (https://www.freelancer.com/support)  |  Get Free Credit =
+(https://www.freelancer.com/give?from=3Demail_footer)
+
+Facebook (https://www.facebook.com/fansoffreelancer)
+
+Twitter (https://twitter.com/freelancer)
+
+Instagram (https://www.instagram.com/freelancerofficial)
+
+Download our mobile app (https://www.freelancer.com/download)
+
+(https://www.freelancer.com/download)
+
+
+
+--b1_a4012ee97df7ce32f5fedb057b061b04
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!doctypehtml PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w=
+3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns=3Dhttp://www.w3.or=
+g/1999/xhtml><meta content=3D"text/html; charset=3DUTF-8"http-equiv=3DConte=
+nt-Type><style>html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%=
+;font-size:100%}body{color:#0e1724;background-color:#fff;margin:0;font-size=
+:14px;line-height:18px}a{color:#0087e0;border:0;text-decoration:none}a:hove=
+r{color:#139ff0;text-decoration:underline}p{color:#0e1724;margin:0!importan=
+t;padding:0!important}img{border:none}</style><style>td{font-family:Helveti=
+ca,Arial,sans-serif!important}</style><body style=3Dbackground-color:#fff><=
+table align=3Dcenter bgcolor=3D#FFFFFF border=3D0 cellpadding=3D0 cellspaci=
+ng=3D0 height=3D100% style=3Dfont-family:Helvetica,Arial,sans-serif!importa=
+nt width=3D100%><tr><td><table align=3Dcenter border=3D0 cellpadding=3D0 ce=
+llspacing=3D0 width=3D690><tr><td align=3Dcenter width=3D100%><a href=3Dhtt=
+ps://www.freelancer.com/?uniqid=3D67297673-490668-6830943b-f92874be&linkid=
+=3D0> <img alt border=3D0 src=3Dhttps://cdn5.f-cdn.com/img/email-images/com=
+mon/logo_300.png?v=3D834faebc40fa464bac75aca01de49a50&m=3D6&buildVersion=3D=
+300e61df6ff5f0acfa8ecf0bd1b04e557716f3bf style=3Dpadding:30px;display:block=
+ width=3D150> </a><tr><td align=3Dcenter width=3D100%><table align=3Dcenter=
+ bgcolor=3D#ffffff border=3D0 cellpadding=3D0 cellspacing=3D0 width=3D100%>=
+<tbody><tr><td><table align=3Dleft border=3D0 cellpadding=3D0 cellspacing=
+=3D0 width=3D100%></table><tr><td align=3Dcenter width=3D100%><table align=
+=3Dcenter border=3D0 cellpadding=3D0 cellspacing=3D0 width=3D100%><tr><td a=
+lign=3Dcenter width=3D100%><table align=3Dcenter border=3D0 cellpadding=3D0=
+ cellspacing=3D0 width=3D100%><tr><td height=3D24 width=3D100%><tr><td alig=
+n=3Dcenter width=3D100%><table align=3Dcenter border=3D0 cellpadding=3D0 ce=
+llspacing=3D0 width=3D630><tr><td align=3Dleft><a href=3Dhttps://www.freela=
+ncer.com/users/login-quick.php?token=3D5115e812b9de952e82e792aef0bf0840d6f3=
+954c1bf898887c8e7e9353776c5b&url=3D%2Fusers%2F76737736.html&user_id=3D67297=
+673&expire_at=3D1753198139&uniqid=3D67297673-490668-6830943b-f92874be&linki=
+d=3D1 style=3Dcolor:#000;font-weight:700 target=3D_blank> <span style=3Dcol=
+or:#000;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif=
+;font-size:20px;font-weight:700;line-height:1.5>Nicholas F.</span> </a></ta=
+ble><tr><td height=3D24 width=3D100%></table><tr><td><table align=3Dcenter =
+border=3D0 cellpadding=3D0 cellspacing=3D0><tr><td align=3Dcenter><table al=
+ign=3Dcenter border=3D0 cellpadding=3D0 cellspacing=3D0 width=3D690><tr><td=
+ align=3Dcenter><table align=3Dcenter border=3D0 cellpadding=3D0 cellspacin=
+g=3D0 width=3D630><tr><td align=3Dleft valign=3Dtop width=3D80><img alt=3D"=
+Profile Picture of Freelancer"style=3D"border:1px solid #e5e5e5;border-radi=
+us:3px"height=3D64 src=3Dhttps://cdn2.f-cdn.com/ppic/249819695/logo/7673773=
+6/unnamed%20%281%29.png width=3D64><td width=3D24><td align=3Dleft valign=
+=3Dtop><table style=3D"border:1px solid #e5e5e5;border-radius:3px"bgcolor=
+=3D#ffffff width=3D100%><tr><td colspan=3D5 height=3D12><tr><td width=3D36>=
+<td valign=3Dtop width=3D480><span style=3Dcolor:#000;mso-line-height-rule:=
+exactly;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:4=
+00;line-height:1.5>Hello Anthony! I'm a sales agent for Freelancer in the M=
+embership Team, and I'm glad to assist you today. I see that you=E2=80=99re=
+ experienced in machine learning and deep learning, which is fantastic! <br=
+> <br> Since you=E2=80=99re keen on solving problems, I believe our members=
+hip plans can really help enhance your freelance experience and boost your =
+earnings. With a membership, you can access additional bids, which translat=
+es to more opportunities to work on projects. <br> <br> For instance, our *=
+*Plus Plan** offers 100 bids a month, client engagement features, and more=
+=E2=80=94just what you need to maximize your project applications. The **Pr=
+ofessional Plan** could be even better, giving you 300 bids each month alon=
+g with insights on your bids to optimize your approach.<br> <br> Would you =
+like to know more about specific plans and their pricing?</span><td width=
+=3D12><td valign=3Dtop width=3D120><span style=3Dcolor:#000;mso-line-height=
+-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-we=
+ight:400;line-height:1.5>8:56: PM IST</span><td width=3D36><tr><td colspan=
+=3D5 height=3D12></table><tr><td colspan=3D3 height=3D12></table><tr><td he=
+ight=3D24><tr><td align=3Dcenter><table border=3D0 cellpadding=3D0 cellspac=
+ing=3D0><tr><td align=3Dcenter bgcolor=3D#0087e0><a style=3D"border:1px sol=
+id #0087e0;padding:15px 26px;text-decoration:none;display:inline-block"href=
+=3Dhttps://www.freelancer.com/users/login-quick.php?token=3D04fe0040642caad=
+05620aa3076459b679bc05412ad382fda8aba47b565b7f2cd&url=3D%2Fmessages%2Fthrea=
+d%2F360582685&user_id=3D67297673&expire_at=3D1753198139&uniqid=3D67297673-4=
+90668-6830943b-f92874be&linkid=3D2 target=3D_blank> <span style=3Dcolor:#ff=
+f;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-=
+size:16px;font-weight:700;line-height:1.5>View Messages =E2=86=92</span> </=
+a></table><tr><td height=3D24><tr><td align=3Dcenter><span style=3Dcolor:#0=
+00;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font=
+-size:16px;font-weight:400;line-height:1.5>Or send a message to <a href=3Dh=
+ttps://www.freelancer.com/users/login-quick.php?token=3D5115e812b9de952e82e=
+792aef0bf0840d6f3954c1bf898887c8e7e9353776c5b&url=3D%2Fusers%2F76737736.htm=
+l&user_id=3D67297673&expire_at=3D1753198139&uniqid=3D67297673-490668-683094=
+3b-f92874be&linkid=3D3 style=3Dcolor:#000;font-weight:700 target=3D_blank> =
+Nicholas F.</a> by <span style=3Dcolor:#000;font-family:Helvetica,Arial,san=
+s-serif;font-size:inherit;font-weight:700;line-height:inherit;mso-line-heig=
+ht-rule:exactly> replying to this email. </span></span><tr><td height=3D8><=
+tr><td align=3Dcenter><span style=3Dcolor:#000;mso-line-height-rule:exactly=
+;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:400;line=
+-height:1.5>Your email address must be linked to your Freelancer.com accoun=
+t.</span><tr><td height=3D24><tr><td height=3D48></table></table></table><t=
+r><td><table align=3Dleft border=3D0 cellpadding=3D0 cellspacing=3D0 width=
+=3D100%></table></table><tr><td><table align=3Dcenter border=3D0 cellpaddin=
+g=3D0 cellspacing=3D0 width=3D100%><tr><td height=3D24><tr><td align=3Dcent=
+er><span style=3Dcolor:#000;mso-line-height-rule:exactly;font-family:Helvet=
+ica,Arial,sans-serif;font-size:13px;font-weight:400;line-height:1.5>=C2=A9 =
+2025 Freelancer Technology Pty Limited. All Rights Reserved.</span><tr><td =
+height=3D8><tr><td align=3Dcenter><span style=3Dcolor:#000;mso-line-height-=
+rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-wei=
+ght:400;line-height:1.5>Level 37, 225 George Street, Sydney, NSW 2000, Aust=
+ralia</span><tr><td height=3D8><tr><td align=3Dcenter><a href=3Dhttps://www=
+.freelancer.com/page.php?p=3Dinfo%2Fprivacy&uniqid=3D67297673-490668-683094=
+3b-f92874be&linkid=3D4 style=3Dcolor:#000;font-weight:400;text-decoration:u=
+nderline target=3D_blank> <span style=3Dcolor:#000;mso-line-height-rule:exa=
+ctly;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:400;=
+line-height:1.5;text-decoration:underline>Privacy Policy</span> </a> =C2=A0=
+ <span style=3Dcolor:#000;mso-line-height-rule:exactly;font-family:Helvetic=
+a,Arial,sans-serif;font-size:13px;font-weight:400;line-height:1.5>|</span> =
+=C2=A0 <a href=3Dhttps://www.freelancer.com/page.php?p=3Dinfo%2Fterms&uniqi=
+d=3D67297673-490668-6830943b-f92874be&linkid=3D5 style=3Dcolor:#000;font-we=
+ight:400;text-decoration:underline target=3D_blank> <span style=3Dcolor:#00=
+0;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-=
+size:13px;font-weight:400;line-height:1.5;text-decoration:underline>Terms a=
+nd Conditions</span> </a> =C2=A0 <span style=3Dcolor:#000;mso-line-height-r=
+ule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weig=
+ht:400;line-height:1.5>|</span> =C2=A0 <a href=3Dhttps://www.freelancer.com=
+/users/email/subscriptions.php?token=3DeyJhbGciOiJIUzI1NiIsInR5cCI6IkZyZWVs=
+YW5jZXJcXEdBRlxcQ29yZVxcSldUXFxKV1QifQ.eyJpZCI6IjY3Mjk3NjczIiwic3ViIjoidW5z=
+dWJzY3JpYmUiLCJpYXQiOjE3NDgwMTQxMzl9.gWULgRZLQysZ-nUAvM9EafUgFq40KRa3YoDLfq=
+qO3Gw&target_setting=3Dstaff_message&uniqid=3D67297673-490668-6830943b-f928=
+74be&linkid=3D6 style=3Dcolor:#000;font-weight:400;text-decoration:underlin=
+e target=3D_blank> <span style=3Dcolor:#000;mso-line-height-rule:exactly;fo=
+nt-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:400;line-he=
+ight:1.5;text-decoration:underline>Unsubscribe</span> </a> =C2=A0 <span sty=
+le=3Dcolor:#000;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sa=
+ns-serif;font-size:13px;font-weight:400;line-height:1.5>|</span> =C2=A0 <a =
+href=3Dhttps://www.freelancer.com/support?uniqid=3D67297673-490668-6830943b=
+-f92874be&linkid=3D7 style=3Dcolor:#000;font-weight:400;text-decoration:und=
+erline target=3D_blank> <span style=3Dcolor:#000;mso-line-height-rule:exact=
+ly;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:400;li=
+ne-height:1.5;text-decoration:underline>Get Support</span> </a> =C2=A0 <spa=
+n style=3Dcolor:#000;mso-line-height-rule:exactly;font-family:Helvetica,Ari=
+al,sans-serif;font-size:13px;font-weight:400;line-height:1.5>|</span> =C2=
+=A0 <a href=3Dhttps://www.freelancer.com/give?from=3Demail_footer&uniqid=3D=
+67297673-490668-6830943b-f92874be&linkid=3D8 style=3Dcolor:#000;font-weight=
+:400;text-decoration:underline target=3D_blank> <span style=3Dcolor:#000;ms=
+o-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size=
+:13px;font-weight:400;line-height:1.5;text-decoration:underline>Get Free Cr=
+edit</span> </a><tr><td height=3D16><tr><td align=3Dcenter><table align=3Dc=
+enter border=3D0 cellpadding=3D0 cellspacing=3D0><tr><td><a href=3Dhttps://=
+www.facebook.com/fansoffreelancer> <img alt=3DFacebook border=3D0 src=3Dhtt=
+ps://d3bvzwcd1dw6vt.cloudfront.net/static/images/email/build/19bacfd0c58e6a=
+35b841790d89354564.png width=3D24> </a><td width=3D4><td><a href=3Dhttps://=
+twitter.com/freelancer> <img alt=3DTwitter border=3D0 src=3Dhttps://d3bvzwc=
+d1dw6vt.cloudfront.net/static/images/email/build/cf858d8bbdf01f6d8f3a7f3ecb=
+08f266.png width=3D24> </a><td width=3D4><td><a href=3Dhttps://www.instagra=
+m.com/freelancerofficial> <img alt=3DInstagram border=3D0 src=3Dhttps://d3b=
+vzwcd1dw6vt.cloudfront.net/static/images/email/build/7517195fa748ffb4ccc210=
+202e644d7d.png width=3D24> </a><td width=3D16><td><a href=3Dhttps://www.fre=
+elancer.com/download?uniqid=3D67297673-490668-6830943b-f92874be&linkid=3D9 =
+style=3Dcolor:#000;font-weight:400 target=3D_blank> <span style=3Dcolor:#00=
+0;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-=
+size:13px;font-weight:400;line-height:1.5>Download our mobile app</span> </=
+a><td width=3D4><td><a href=3Dhttps://www.freelancer.com/download?uniqid=3D=
+67297673-490668-6830943b-f92874be&linkid=3D10> <img border=3D0 src=3Dhttps:=
+//d3bvzwcd1dw6vt.cloudfront.net/static/images/email/build/b98e76935f88dac4c=
+bd67e14f237d7cc.png style=3Ddisplay:inline width=3D38> </a></table><tr><td =
+height=3D24></table></table></table><img style=3D"border:1px solid #d9d9d9"=
+src=3Dhttps://t.freelancer.com/1px.gif?en=3Demail-tracking.opened&acct=3D.F=
+reelancer.com&uniqid=3D67297673-490668-6830943b-f92874be>
+--b1_a4012ee97df7ce32f5fedb057b061b04--
