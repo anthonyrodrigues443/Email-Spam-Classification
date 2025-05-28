@@ -1,0 +1,292 @@
+Delivered-To: anthonyrodrigues443@gmail.com
+Received: by 2002:a05:6f02:ad4:10b0:8b:1f53:f242 with SMTP id t20-n1csp1612100rci;
+        Wed, 28 May 2025 05:48:02 -0700 (PDT)
+X-Received: by 2002:a17:907:3e10:b0:ad5:20ad:965e with SMTP id a640c23a62f3a-ad85b0bf5f4mr1552333266b.22.1748436482467;
+        Wed, 28 May 2025 05:48:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1748436482; cv=none;
+        d=google.com; s=arc-20240605;
+        b=U5pNkDxrIjgw+rUFBzBSQ9G0Vk+/CVc0qhNkNWhkaUaFo69i1nDtST+Uht/7Kk5Uhr
+         fqOBsJ/5kB8eSWhddt7mhI2JGOhNMsvVAbRoLwAKkPyN4W0WiR0vGZEZFcWIgHgDN9AX
+         fwC7+IoChcgrFcg1IEE/7ynh16ziD0IL69b10aAZ7L+CIMxvXXzyf7jf8AggHN+qHLzE
+         SCRmYZ+siXnr4fShjsyZy5ZNpXSQvNhEEFQMemaRkQQNZjN/qfOXN3bRyePn4dhHYb1O
+         8TG+KqqpYNL7Q68lDwWF/uXUZ00Y3O7ssnanSvZuztSXxMZA5ZmAh+OUKjNhlRLy+2A7
+         2d/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=4HrXP0i3tlvwy0HgqshksEyL8aGepIeS9d+Jf1FDJos=;
+        fh=XsbQgXkXkACRFewGF3KnY0gxblwjzr5PQXCqx+WH0BQ=;
+        b=XOh0hkhqrthFpnF3Gw/pm5eqqN0O2gdmT7kN+89I4hmbvBrIFC6rbmfQ7CJpgd3YVZ
+         a+tZr6TqKJqzbM/gMb9dcUYmTo5q0QXluscSw1b7C/XppGyTuX4Sb7g+xNv7bw5cKnGe
+         iEtzihh3XBtu6YkmuottuK3aIiIORDozsMeRUXdTR050xFbZ+CA0TNvLX9Rl4QqDU7YS
+         taMMQUPt3Ab7TzjPJUY8vFXRfv/5hKke9bjk4bTstpFjWLEHtSLXzKYl8VZpm+63uX6G
+         gwrQVg2+rw9HKxmuel4akR7wjAtjxSpVBpoeGERpOhgLKhqc2vrnbWAjt9zO/8zhiCCk
+         mi1Q==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=mnxjj4dK;
+       spf=pass (google.com: domain of markrodrigues2004@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=markrodrigues2004@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+Return-Path: <markrodrigues2004@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id a640c23a62f3a-ad8974b53bbsor176122866b.8.2025.05.28.05.48.02
+        for <anthonyrodrigues443@gmail.com>
+        (Google Transport Security);
+        Wed, 28 May 2025 05:48:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of markrodrigues2004@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=mnxjj4dK;
+       spf=pass (google.com: domain of markrodrigues2004@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=markrodrigues2004@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748436482; x=1749041282; dara=google.com;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4HrXP0i3tlvwy0HgqshksEyL8aGepIeS9d+Jf1FDJos=;
+        b=mnxjj4dKr3gUR3zZHiF8pXPqIRaKAwJ+TgDMUorLE5PwSkNswXPFwaZRI78iMrZr2Y
+         z3ugY7MchYH8LffG7BwgsK26vlbz4IC2ht9fKsTEBqY6Hd52dUudoj4oPTEaW57M0awy
+         pjs3Opk/rlVYs4kFlIm6B3hn1NCWcZolg3FCd+ubBdW3qGC4O3K9fMF9IwdoJq/msuOU
+         p4Q0mQYUZxHPKHUnEG3qr8XC47kOhlGaqLF/ACGHSIcTm3HkmOGo8dF/t4FbdYbhuVZ/
+         wPTZUIQjBGU5wc0mrK0KCbnlHCLv1VMd5s9kvdvKAQt0QDc0sLZ3I6n91QJH9gGhQ3Kr
+         8UhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748436482; x=1749041282;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4HrXP0i3tlvwy0HgqshksEyL8aGepIeS9d+Jf1FDJos=;
+        b=T5v/TlvDKIyhMSCShK+q57NigYn6bwykx/YD/2awQnEvweqDeVOn1VjTDPcqCwoJl8
+         kpjIGQnOsigjSk994zKm5moToHgF719AjMTploTqTujxzzTfuBd36ydhc9bZ0311GWjq
+         E2wSHVrfbXtbuom7bfzyxgBmPklJD9XG5X0ZuKzlYQlt3zHiW971gXEE9yPs2rbxRF4K
+         ROU8poNMRMxPHZubBtVDoKWbJKCdMLjkgcViHyfX47r53A97pDdFOWDyvhRFSAlVJpIg
+         mp+I7drHR6RVz8Eg2vpJaUGkHphmoAvm3vqZdb5h35U17Xl/kHicwbO8ZYpIkZSmD3+U
+         aEdA==
+X-Gm-Message-State: AOJu0YwsZJZUoFHD8l3ObJEfUkWvsZZTTlqdO5npCIWROLLvFlXSJEKB
+	DKnot0Pq2MIn9Si2WEnnxk6YAd1j5nMkIAwWYJbb+JXmrmpzm4rx74lilzOWA8vq1zBxj3atOGP
+	4OJwsvhAruCvEYGkw1tjc9dBmhVHPlCvNSw==
+X-Gm-Gg: ASbGnctkt6m/lFwwUtAQSHSer3vqTyBxTXmQr9yVKy6cWqsmmFY9XvkJTmyH9nmnoAn
+	jUw4nHIbv7/jnSZ2nfkEawZVN8B9PsgHg4k87b4onZQ6SAIZu8Nnn0X5dMxBn1CsRKDvF2wRttF
+	ZlsXhQJIRJqHZnmx5qMgRRt85yIypZQWb8U7DIP8dWwe2yFWPbfbnYYHZ1rKqSI2s=
+X-Google-Smtp-Source: AGHT+IG4CXqdw/Pq2bCenOCbLoPZ0yRfGRwymXHOBZmO2v7YW38J5tXLz1yQblPcDNKski//77x7+l/zGVGnZsg+mh8=
+X-Received: by 2002:a17:906:15ca:b0:ad8:8621:9260 with SMTP id
+ a640c23a62f3a-ad8862194e1mr701737866b.58.1748436481553; Wed, 28 May 2025
+ 05:48:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <48.B5.38960.6ADE1186@i-0b11083aecccea98c.mta1vrest.sd.prd.sparkpost>
+In-Reply-To: <48.B5.38960.6ADE1186@i-0b11083aecccea98c.mta1vrest.sd.prd.sparkpost>
+From: M R <markrodrigues2004@gmail.com>
+Date: Wed, 28 May 2025 18:17:47 +0530
+X-Gm-Features: AX0GCFvgzQWZbRPhq7MUDIcUsYG-X_8xBipghmfFU-rkDoDWziz77dIVEg85CI8
+Message-ID: <CAEpM64_JSpOp0-0+TCiFW4=Uu7tGSz5sjzBrVWunu0kWyg=XUQ@mail.gmail.com>
+Subject: Want to Crack Backend Roles in 2025?
+To: Anthony Rodrigues <anthonyrodrigues443@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000653b3b0636319725"
+
+--000000000000653b3b0636319725
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: Avni from Fynd Academy <noreply@info.fyndacademy.com>
+Date: Wed, 30 Apr, 2025, 15:00
+Subject: Want to Crack Backend Roles in 2025?
+To: <markrodrigues2004@gmail.com>
+
+
+[image: Image]
+<https://tn.dmtrkr.com/clicks/html/856962f3-1aba-5c76-8c02-9956e60fdc7e/66f=
+8150c-7a21-522a-bfec-3356a7c0860f/86267965-ca8e-5d26-82a4-06cc78a7271c?urlC=
+hildId=3D26815b38-1f9f-5e4e-921d-48d7f85eda78&templateId=3D64353460-2f8c-47=
+fc-be84-a57b4a937093>
+Dear Learner,
+
+=F0=9F=9A=A8 Free Masterclass Alert: Become a Backend Developer in 2025! =
+=F0=9F=9A=A8
+
+
+Join Nishchal Muradia, SDE 3 at Oracle, as he shares a complete Java
+Roadmap to help you master the essential skills needed for backend
+development in 2025.
+
+
+=E2=9C=85 Real World Examples
+=E2=9C=85 Free Java Roadmap Document
+=E2=9C=85 Free Resume Template
+=E2=9C=85 First 50 Java Fundamentals students get 1:1 doubt-solving!
+
+
+[image: Image]
+<https://tn.dmtrkr.com/clicks/html/856962f3-1aba-5c76-8c02-9956e60fdc7e/66f=
+8150c-7a21-522a-bfec-3356a7c0860f/7954274c-ca12-55e9-9cd0-87392914c6ed?urlC=
+hildId=3D4806364a-6839-50e2-9f01-44359ea4b2f0&templateId=3D64353460-2f8c-47=
+fc-be84-a57b4a937093>
+
+
+Register Now
+<https://tn.dmtrkr.com/clicks/html/856962f3-1aba-5c76-8c02-9956e60fdc7e/66f=
+8150c-7a21-522a-bfec-3356a7c0860f/7954274c-ca12-55e9-9cd0-87392914c6ed?urlC=
+hildId=3D1049d49e-8377-5d0c-91e0-accab8bdceee&templateId=3D64353460-2f8c-47=
+fc-be84-a57b4a937093>
+
+
+
+Best Regards,
+
+Team Fynd Academy.
+Click here
+<https://tn.dmtrkr.com/clicks/honey-link/html/856962f3-1aba-5c76-8c02-9956e=
+60fdc7e/66f8150c-7a21-522a-bfec-3356a7c0860f>[image:
+signature]
+Unsubscribe
+<https://tn.dmtrkr.com/unsubscribes/html/856962f3-1aba-5c76-8c02-9956e60fdc=
+7e/66f8150c-7a21-522a-bfec-3356a7c0860f>
+
+--000000000000653b3b0636319725
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"></div><br><div class=3D"gmail_quote gmail_quote_container=
+"><div dir=3D"ltr" class=3D"gmail_attr">---------- Forwarded message ------=
+---<br>From: <strong class=3D"gmail_sendername" dir=3D"auto">Avni from Fynd=
+ Academy</strong> <span dir=3D"auto">&lt;<a href=3D"mailto:noreply@info.fyn=
+dacademy.com">noreply@info.fyndacademy.com</a>&gt;</span><br>Date: Wed, 30 =
+Apr, 2025, 15:00<br>Subject: Want to Crack Backend Roles in 2025?<br>To:  &=
+lt;<a href=3D"mailto:markrodrigues2004@gmail.com">markrodrigues2004@gmail.c=
+om</a>&gt;<br></div><br><br><u></u><div style=3D"word-spacing:normal;backgr=
+ound-color:#f8fafc">
+<div style=3D"color:transparent;opacity:0;font-size:0px;border:0;max-height=
+:1px;width:1px;margin:0px;padding:0px;border-width:0px!important;display:no=
+ne!important;line-height:0px!important"><img border=3D"0" width=3D"1" heigh=
+t=3D"1" alt=3D""></div>
+<span style=3D"display:none"></span><div class=3D"m_-5499288802241586563bod=
+y-wrapper" style=3D"background-color:#f8fafc"><div style=3D"background:#fff=
+;background-color:#fff;margin:0 auto;border-radius:0;max-width:600px"><tabl=
+e align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D=
+"presentation" style=3D"background:#fff;background-color:#fff;width:100%;bo=
+rder-radius:0"><tbody><tr><td style=3D"border:0 solid transparent;direction=
+:ltr;font-size:0;padding:0;padding-bottom:0;padding-left:0;padding-right:0;=
+padding-top:0;text-align:center"><div style=3D"background:#00000000;backgro=
+und-color:#00000000;margin:0 auto;border-radius:0;max-width:600px"><table a=
+lign=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"pr=
+esentation" style=3D"background:#00000000;background-color:#00000000;width:=
+100%;border-radius:0"><tbody><tr><td style=3D"border:0 solid transparent;di=
+rection:ltr;font-size:0;padding:20px 0;padding-bottom:0;padding-left:20px;p=
+adding-right:20px;padding-top:20px;text-align:center"><div class=3D"m_-5499=
+288802241586563mj-column-per-100" style=3D"font-size:0;text-align:left;dire=
+ction:ltr;display:inline-block;vertical-align:top;width:100%"><table border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" width=3D"1=
+00%"><tbody><tr><td style=3D"background-color:transparent;border:0 solid tr=
+ansparent;border-radius:0;vertical-align:top;padding-top:0;padding-right:0;=
+padding-bottom:0;padding-left:0"><table border=3D"0" cellpadding=3D"0" cell=
+spacing=3D"0" role=3D"presentation" width=3D"100%"><tbody><tr><td align=3D"=
+center" class=3D"m_-5499288802241586563html-custom-block-img" style=3D"font=
+-size:0;padding:10px 25px;padding-top:0;padding-right:0;padding-bottom:0;pa=
+dding-left:0;word-break:break-word"><table border=3D"0" cellpadding=3D"0" c=
+ellspacing=3D"0" role=3D"presentation" style=3D"border-collapse:collapse;bo=
+rder-spacing:0"><tbody><tr><td style=3D"width:350px"><a href=3D"https://tn.=
+dmtrkr.com/clicks/html/856962f3-1aba-5c76-8c02-9956e60fdc7e/66f8150c-7a21-5=
+22a-bfec-3356a7c0860f/86267965-ca8e-5d26-82a4-06cc78a7271c?urlChildId=3D268=
+15b38-1f9f-5e4e-921d-48d7f85eda78&amp;templateId=3D64353460-2f8c-47fc-be84-=
+a57b4a937093" target=3D"_blank" rel=3D"noreferrer"><img alt=3D"Image" style=
+=3D"border:0 solid transparent;border-radius:0;display:block;outline:0;text=
+-decoration:none;height:auto;width:350px;max-width:100%;font-size:13px" wid=
+th=3D"350" height=3D"auto"></a></td></tr></tbody></table></td></tr></tbody>=
+</table></td></tr></tbody></table></div></td></tr></tbody></table></div><di=
+v style=3D"background:#00000000;background-color:#00000000;margin:0 auto;bo=
+rder-radius:0;max-width:600px"><table align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"background:#000=
+00000;background-color:#00000000;width:100%;border-radius:0"><tbody><tr><td=
+ style=3D"border:0 solid transparent;direction:ltr;font-size:0;padding:20px=
+ 0;padding-bottom:20px;padding-left:20px;padding-right:20px;padding-top:20p=
+x;text-align:center"><div class=3D"m_-5499288802241586563mj-column-per-100"=
+ style=3D"font-size:0;text-align:left;direction:ltr;display:inline-block;ve=
+rtical-align:top;width:100%"><table border=3D"0" cellpadding=3D"0" cellspac=
+ing=3D"0" role=3D"presentation" width=3D"100%"><tbody><tr><td style=3D"back=
+ground-color:transparent;border:0 solid transparent;border-radius:0;vertica=
+l-align:top;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0">=
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentatio=
+n" width=3D"100%"><tbody><tr><td align=3D"left" style=3D"font-size:0;paddin=
+g:10px 25px;padding-top:0;padding-right:0;padding-bottom:20px;padding-left:=
+0;word-break:break-word"><div style=3D"font-family:Helvetica;font-size:28px=
+;font-weight:400;letter-spacing:0;line-height:1.5;text-align:left;color:#1e=
+293b"><h1>Dear Learner,</h1></div></td></tr><tr><td align=3D"left" style=3D=
+"font-size:0;padding:10px 25px;padding-top:0;padding-right:0;padding-bottom=
+:0;padding-left:0;word-break:break-word"><div style=3D"font-family:Helvetic=
+a;font-size:16px;font-weight:400;letter-spacing:0;line-height:1.5;text-alig=
+n:left;color:#1e293b"><p>=F0=9F=9A=A8 Free Masterclass Alert: Become a Back=
+end Developer in 2025! =F0=9F=9A=A8</p><p><br>Join Nishchal Muradia, SDE 3 =
+at Oracle, as he shares a complete Java Roadmap to help you master the esse=
+ntial skills needed for backend development in 2025.=C2=A0</p><p><br>=E2=9C=
+=85 Real World Examples<br>=E2=9C=85 Free Java Roadmap Document<br>=E2=9C=
+=85 Free Resume Template<br>=E2=9C=85 First 50 Java Fundamentals students g=
+et 1:1 doubt-solving!</p><p>=C2=A0</p></div></td></tr><tr><td align=3D"cent=
+er" class=3D"m_-5499288802241586563html-custom-block-img" style=3D"font-siz=
+e:0;padding:10px 25px;padding-top:0;padding-right:0;padding-bottom:0;paddin=
+g-left:0;word-break:break-word"><table border=3D"0" cellpadding=3D"0" cells=
+pacing=3D"0" role=3D"presentation" style=3D"border-collapse:collapse;border=
+-spacing:0" class=3D"m_-5499288802241586563mj-full-width-mobile"><tbody><tr=
+><td style=3D"width:560px" class=3D"m_-5499288802241586563mj-full-width-mob=
+ile"><a href=3D"https://tn.dmtrkr.com/clicks/html/856962f3-1aba-5c76-8c02-9=
+956e60fdc7e/66f8150c-7a21-522a-bfec-3356a7c0860f/7954274c-ca12-55e9-9cd0-87=
+392914c6ed?urlChildId=3D4806364a-6839-50e2-9f01-44359ea4b2f0&amp;templateId=
+=3D64353460-2f8c-47fc-be84-a57b4a937093" target=3D"_blank" rel=3D"noreferre=
+r"><img alt=3D"Image" style=3D"border:0 solid transparent;border-radius:0;d=
+isplay:block;outline:0;text-decoration:none;height:auto;width:560px;max-wid=
+th:100%;font-size:13px" width=3D"560" height=3D"auto"></a></td></tr></tbody=
+></table></td></tr><tr><td align=3D"left" style=3D"font-size:0;padding:10px=
+ 25px;padding-top:0;padding-right:0;padding-bottom:12px;padding-left:0;word=
+-break:break-word"><div style=3D"font-family:Helvetica;font-size:16px;font-=
+weight:400;letter-spacing:0;line-height:1.5;text-align:left;color:#000"><p>=
+=C2=A0</p></div></td></tr><tr><td align=3D"center" class=3D"m_-549928880224=
+1586563amp-btn-wrapper" style=3D"font-size:0;padding:0 0 12px 0;word-break:=
+break-word"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D=
+"presentation" style=3D"border-collapse:separate;width:auto;line-height:100=
+%"><tbody><tr><td align=3D"center" bgcolor=3D"#DC2626" role=3D"presentation=
+" style=3D"border-bottom:none;border-left:none;border-radius:4px;border-rig=
+ht:none;border-top:none;border:0 solid transparent;height:auto;background:#=
+dc2626;padding:0"><a href=3D"https://tn.dmtrkr.com/clicks/html/856962f3-1ab=
+a-5c76-8c02-9956e60fdc7e/66f8150c-7a21-522a-bfec-3356a7c0860f/7954274c-ca12=
+-55e9-9cd0-87392914c6ed?urlChildId=3D1049d49e-8377-5d0c-91e0-accab8bdceee&a=
+mp;templateId=3D64353460-2f8c-47fc-be84-a57b4a937093" style=3D"display:inli=
+ne-block;background:#dc2626;color:#fff;font-family:Helvetica;font-size:16px=
+;font-weight:400;line-height:1;letter-spacing:0;margin:0;text-decoration:no=
+ne;text-transform:none;padding:14px 24px 14px 24px;border-radius:4px" targe=
+t=3D"_blank" rel=3D"noreferrer">Register Now</a></td></tr></tbody></table><=
+/td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody>=
+</table></div><div style=3D"background:#00000000;background-color:#00000000=
+;margin:0 auto;border-radius:0;max-width:600px"><table align=3D"center" bor=
+der=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=
+=3D"background:#00000000;background-color:#00000000;width:100%;border-radiu=
+s:0"><tbody><tr><td style=3D"border:0 solid transparent;direction:ltr;font-=
+size:0;padding:20px 0;padding-bottom:20px;padding-left:20px;padding-right:2=
+0px;padding-top:0;text-align:center"><div class=3D"m_-5499288802241586563mj=
+-column-per-100" style=3D"font-size:0;text-align:left;direction:ltr;display=
+:inline-block;vertical-align:top;width:100%"><table border=3D"0" cellpaddin=
+g=3D"0" cellspacing=3D"0" role=3D"presentation" width=3D"100%"><tbody><tr><=
+td style=3D"background-color:transparent;border:0 solid transparent;border-=
+radius:0;vertical-align:top;padding-top:0;padding-right:0;padding-bottom:0;=
+padding-left:0"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" rol=
+e=3D"presentation" width=3D"100%"><tbody><tr><td align=3D"left" style=3D"fo=
+nt-size:0;padding:10px 25px;padding-top:0;padding-right:0;padding-bottom:24=
+px;padding-left:0;word-break:break-word"><div style=3D"font-family:Helvetic=
+a;font-size:16px;font-weight:400;letter-spacing:0;line-height:1.5;text-alig=
+n:left;color:#1e293b"><p>=C2=A0</p><p>Best Regards,</p><p>Team Fynd Academy=
+.</p></div></td></tr></tbody></table></td></tr></tbody></table></div></td><=
+/tr></tbody></table></div></td></tr></tbody></table></div></div><a style=3D=
+"display:inline-block;font-size:1px;height:1px;width:1px;max-height:1px;max=
+-width:1px;overflow:hidden;color:transparent" href=3D"https://tn.dmtrkr.com=
+/clicks/honey-link/html/856962f3-1aba-5c76-8c02-9956e60fdc7e/66f8150c-7a21-=
+522a-bfec-3356a7c0860f" target=3D"_blank" rel=3D"noreferrer">Click here</a>=
+<img width=3D"1" height=3D"1" alt=3D"signature"><table width=3D"100%" align=
+=3D"center" style=3D"margin-top:12px"><tbody><tr><td width=3D"100%" align=
+=3D"center">
+                <a style=3D"margin-left:auto;margin-right:auto;color:grey;f=
+ont-size:12px;text-decoration:underline" href=3D"https://tn.dmtrkr.com/unsu=
+bscribes/html/856962f3-1aba-5c76-8c02-9956e60fdc7e/66f8150c-7a21-522a-bfec-=
+3356a7c0860f" target=3D"_blank" rel=3D"noreferrer">Unsubscribe</a>
+                </td></tr></tbody></table>
+<img border=3D"0" width=3D"1" height=3D"1" alt=3D"">
+</div></div>
+
+--000000000000653b3b0636319725--
