@@ -1,10 +1,5 @@
 from flask import Flask, render_template, request
 import preprocessor
-import os
-import matplotlib.pyplot as plt
-import io
-import base64
-from matplotlib.backends.backend_agg import FigureCanvasAgg
 
 app = Flask(__name__)
 
