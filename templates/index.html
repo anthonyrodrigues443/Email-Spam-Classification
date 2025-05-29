@@ -2,13 +2,500 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Email Extractor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Spam Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            max-width: 1200px;
+            width: 100%;
+            max-height: 90vh;
+            position: relative;
+            z-index: 2;
+            animation: slideUp 0.8s ease-out;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .left-section {
+            text-align: center;
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .icon svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .upload-form {
+            width: 100%;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .file-input {
+            opacity: 0;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 40px 25px;
+            border: 3px dashed #cbd5e1;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-input-label:hover {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f0f7ff, #e0f2fe);
+            transform: translateY(-2px);
+        }
+
+        .file-input-label.dragover {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 15px;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-label:hover .upload-icon {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .upload-text {
+            font-size: 1rem;
+            color: #475569;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .upload-hint {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .file-name {
+            margin-top: 12px;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border-radius: 10px;
+            font-weight: 500;
+            display: none;
+            animation: fadeIn 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 16px 35px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .loading {
+            display: none;
+            margin-left: 10px;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .feature {
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .feature:nth-child(1) { animation-delay: 0.2s; }
+        .feature:nth-child(2) { animation-delay: 0.4s; }
+        .feature:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-icon {
+            width: 28px;
+            height: 28px;
+            margin: 0 auto 10px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
+        }
+
+        .feature-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 3px;
+        }
+
+        .feature-desc {
+            font-size: 0.75rem;
+            color: #64748b;
+            line-height: 1.3;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                max-height: none;
+                overflow-y: auto;
+            }
+            
+            .left-section {
+                order: 1;
+            }
+            
+            .right-section {
+                order: 2;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 30px 25px;
+                margin: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .file-input-label {
+                padding: 30px 20px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Email Extractor</h1>
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="email_file" accept=".eml" required>
-        <button type="submit">Upload</button>
-    </form>
+    <!-- Animated background particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <div class="left-section">
+            <div class="icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+            </div>
+
+            <h1>Email Spam Detection</h1>
+            <p class="subtitle">Upload your email file (.eml) and get instant AI-powered spam analysis with confidence scores.</p>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+                        </svg>
+                    </div>
+                    <div class="feature-title">Secure</div>
+                    <div class="feature-desc">Your files are processed securely</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+                        </svg>
+                    </div>
+                    <div class="feature-title">Accurate</div>
+                    <div class="feature-desc">AI-powered detection</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6M12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8Z"/>
+                        </svg>
+                    </div>
+                    <div class="feature-title">Fast</div>
+                    <div class="feature-desc">Instant results</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <form class="upload-form" action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+                <div class="file-input-wrapper">
+                    <input type="file" name="email_file" accept=".eml" required class="file-input" id="emailFile">
+                    <label for="emailFile" class="file-input-label" id="fileLabel">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 24 24" fill="#667eea">
+                                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                            </svg>
+                        </div>
+                        <div class="upload-text">Click to browse or drag & drop</div>
+                        <div class="upload-hint">Supports .eml files only</div>
+                    </label>
+                    <div class="file-name" id="fileName"></div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span>Analyze Email</span>
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Create animated particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // File input handling
+        const fileInput = document.getElementById('emailFile');
+        const fileLabel = document.getElementById('fileLabel');
+        const fileName = document.getElementById('fileName');
+        const uploadForm = document.getElementById('uploadForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const loading = document.getElementById('loading');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                fileName.textContent = `Selected: ${file.name}`;
+                fileName.style.display = 'block';
+                fileLabel.style.borderColor = '#10b981';
+                fileLabel.style.background = 'linear-gradient(135deg, #ecfdf5, #d1fae5)';
+            }
+        });
+
+        // Drag and drop functionality
+        fileLabel.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            fileLabel.classList.add('dragover');
+        });
+
+        fileLabel.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            fileLabel.classList.remove('dragover');
+        });
+
+        fileLabel.addEventListener('drop', function(e) {
+            e.preventDefault();
+            fileLabel.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].name.endsWith('.eml')) {
+                fileInput.files = files;
+                fileName.textContent = `Selected: ${files[0].name}`;
+                fileName.style.display = 'block';
+                fileLabel.style.borderColor = '#10b981';
+                fileLabel.style.background = 'linear-gradient(135deg, #ecfdf5, #d1fae5)';
+            }
+        });
+
+        // Form submission with loading state
+        uploadForm.addEventListener('submit', function(e) {
+            submitBtn.disabled = true;
+            loading.style.display = 'inline-block';
+            submitBtn.querySelector('span').textContent = 'Analyzing...';
+        });
+
+        // Initialize particles
+        createParticles();
+    </script>
 </body>
 </html>

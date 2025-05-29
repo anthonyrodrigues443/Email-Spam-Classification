@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Complete - Email Spam Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            position: relative;
+            overflow: hidden; /* Prevent body scrollbar */
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            max-width: 1100px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 280px; /* Left column for main content, right for detail cards */
+            gap: 35px;
+            max-height: 90vh; /* Constrain height to prevent scroll */
+            position: relative;
+            z-index: 2;
+            animation: slideUp 0.8s ease-out;
+            overflow: hidden; /* Prevent container scrollbar */
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .left-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            justify-content: flex-start;
+            min-height: 100%;
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Adjust gap between cards and button */
+            height: fit-content; /* Only take space needed by content */
+            padding-top: 10px; /* Align with top of main content slightly */
+        }
+
+        .icon-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        .status-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 25px 0 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: zoomIn 0.6s ease-out 0.3s both;
+            position: relative;
+        }
+
+        .status-icon.safe {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: zoomIn 0.6s ease-out 0.3s both, pulse-safe 2s infinite;
+        }
+
+        .status-icon.spam {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            animation: zoomIn 0.6s ease-out 0.3s both, pulse-spam 2s infinite;
+        }
+
+        .status-icon.warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+            animation: zoomIn 0.6s ease-out 0.3s both, pulse-warning 2s infinite;
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse-safe {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            50% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+        }
+
+        @keyframes pulse-spam {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            50% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+        }
+
+        @keyframes pulse-warning {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            50% { box-shadow: 0 0 0 15px rgba(245, 158, 11, 0); }
+        }
+
+        .status-icon svg {
+            width: 60px;
+            height: 60px;
+            fill: white;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            letter-spacing: -0.02em;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+
+        h1.safe {
+            background: linear-gradient(135deg, #10b981, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1.spam {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1.warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .result-summary {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 35px;
+            line-height: 1.6;
+            animation: fadeInUp 0.8s ease-out 0.7s both;
+            max-width: 500px;
+        }
+
+        .probability-container {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 20px;
+            padding: 35px 30px;
+            margin-bottom: 35px;
+            border: 1px solid #e2e8f0;
+            animation: fadeInUp 0.8s ease-out 0.9s both;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .probability-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .probability-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .probability-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .probability-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 2s ease-out 1s;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .probability-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s ease-out 1s;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .confidence-text {
+            font-size: 0.8rem;
+            color: #64748b;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px 18px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out var(--card-delay) both; /* Added for staggered animation */
+        }
+
+        .detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .detail-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .detail-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        .detail-value {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .detail-desc {
+            font-size: 0.8rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        .right-section .actions {
+            margin-top: 15px; /* Adjust spacing from detail cards */
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 12px; /* Space between buttons - though only one now, good for future */
+            width: 100%; /* Ensure button takes full width of right section */
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex; /* Changed to flex to center content */
+            align-items: center;
+            justify-content: center; /* Center text and icon */
+            gap: 8px; /* Space between icon and text */
+            border: none;
+            width: 100%; /* Make buttons fill the available width */
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr; /* Stack columns on smaller screens */
+                gap: 30px;
+                padding: 25px;
+                max-height: 95vh; /* Adjust height for smaller screens */
+            }
+
+            .left-section {
+                order: 1; /* Keep left section first */
+            }
+
+            .right-section {
+                order: 2; /* Move right section below left */
+                flex-direction: row; /* Arrange detail cards horizontally */
+                flex-wrap: wrap; /* Allow cards to wrap */
+                justify-content: center; /* Center cards horizontally */
+                padding-top: 0; /* Remove top padding for right section */
+                gap: 15px; /* Adjust gap for row layout */
+            }
+            
+            .right-section .detail-card {
+                flex-basis: calc(50% - 7.5px); /* Two cards per row, accounting for gap */
+                max-width: 250px; /* Limit individual card width */
+            }
+
+            .right-section .actions {
+                flex-direction: row; /* Arrange button horizontally on smaller screens */
+                justify-content: center;
+                margin-top: 25px;
+                width: 100%; /* Ensure button takes full width to center */
+            }
+
+            .right-section .actions .btn {
+                flex-grow: 1; /* Allow button to grow to fill space */
+                max-width: 250px; /* Limit max width for the button */
+            }
+
+            .icon-title-row {
+                flex-direction: column;
+                margin-bottom: 20px;
+            }
+            .status-icon {
+                margin: 0 auto 15px;
+            }
+            h1 {
+                font-size: 2.4rem;
+            }
+            .result-summary {
+                font-size: 1rem;
+            }
+            .probability-value {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .probability-value {
+                font-size: 2.5rem;
+            }
+            .right-section {
+                flex-direction: column; /* Stack cards vertically again on very small screens */
+                align-items: center; /* Center cards */
+            }
+            .right-section .detail-card {
+                flex-basis: 100%; /* Full width for cards */
+                max-width: 300px; /* Max width for single card */
+            }
+            .right-section .actions {
+                flex-direction: column; /* Stack button vertically */
+            }
+            .right-section .actions .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <div class="left-section">
+            <div class="icon-title-row">
+                <div class="status-icon" id="statusIcon">
+                    <svg viewBox="0 0 24 24" id="statusSvg">
+                        <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+                    </svg>
+                </div>
+                <h1 id="resultTitle">Analysis Complete</h1>
+            </div>
+
+            <p class="result-summary" id="resultSummary">
+                Your email has been analyzed using advanced AI algorithms.
+            </p>
+
+            <div class="probability-container">
+                <div class="probability-label">Spam Probability Score</div>
+                <div class="probability-value" id="probabilityValue">
+                    {{ prediction }}
+                </div>
+                <div class="probability-bar">
+                    <div class="probability-fill" id="probabilityFill"></div>
+                </div>
+                <div class="confidence-text">
+                    <span>Safe (0%)</span>
+                    <span>Suspicious (50%)</span>
+                    <span>Spam (100%)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="detail-card" style="--card-delay: 1.1s;">
+                <div class="detail-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9,12L11,14L15,10L20.59,4L22,5.41L11,16.41L1.93,7.34L3.34,5.93L9,12Z"/>
+                    </svg>
+                </div>
+                <div class="detail-title">Classification</div>
+                <div class="detail-value" id="classificationValue">
+                    {{ label }}
+                </div>
+                <div class="detail-desc">Final AI decision based on comprehensive analysis</div>
+            </div>
+
+            <div class="detail-card" style="--card-delay: 1.3s;">
+                <div class="detail-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/>
+                    </svg>
+                </div>
+                <div class="detail-title">Confidence Level</div>
+                <div class="detail-value" id="confidenceValue">
+                    High
+                </div>
+                <div class="detail-desc">AI model's confidence in this prediction</div>
+            </div>
+
+            <div class="actions" style="--card-delay: 1.5s;">
+                <a href="/" class="btn btn-primary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+                    </svg>
+                    Analyze Another Email
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get prediction value from Flask template
+        const predictionText = '{{ prediction }}';
+        const labelText = '{{ label }}';
+        
+        // Parse prediction value (handle both percentage and decimal formats)
+        let predictionValue;
+        if (predictionText.includes('%')) {
+            predictionValue = parseFloat(predictionText.replace('%', '')) / 100;
+        } else {
+            predictionValue = parseFloat(predictionText);
+        }
+
+        // Create animated particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 25;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Determine status based on prediction and label
+        function determineStatus() {
+            const isSpam = labelText.toLowerCase().includes('spam');
+            const probability = isNaN(predictionValue) ? 0.5 : predictionValue;
+            
+            if (isSpam || probability > 0.7) {
+                return 'spam';
+            } else if (probability > 0.3) {
+                return 'warning';
+            } else {
+                return 'safe';
+            }
+        }
+
+        // Update UI based on prediction
+        function updateUI() {
+            const status = determineStatus();
+            const statusIcon = document.getElementById('statusIcon');
+            const statusSvg = document.getElementById('statusSvg');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultSummary = document.getElementById('resultSummary');
+            const probabilityValue = document.getElementById('probabilityValue');
+            const probabilityFill = document.getElementById('probabilityFill');
+            const confidenceValue = document.getElementById('confidenceValue');
+
+            // Update status icon and classes
+            statusIcon.className = `status-icon ${status}`;
+            resultTitle.className = status;
+
+            // Update icon based on status
+            if (status === 'safe') {
+                statusSvg.innerHTML = '<path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>';
+                resultTitle.textContent = 'Email is Safe';
+                resultSummary.textContent = 'Great news! Our AI analysis indicates this email is legitimate and safe to read.';
+            } else if (status === 'warning') {
+                statusSvg.innerHTML = '<path d="M12,2L13.09,8.26L22,9L17.5,13.74L18.18,22L12,19.77L5.82,22L6.5,13.74L2,9L10.91,8.26L12,2Z"/>';
+                resultTitle.textContent = 'Email Needs Review';
+                resultSummary.textContent = 'This email shows some suspicious characteristics. Please review it carefully before taking any action.';
+            } else {
+                statusSvg.innerHTML = '<path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z"/>';
+                resultTitle.textContent = 'Spam Detected';
+                resultSummary.textContent = 'Warning! This email has been identified as spam with high confidence. Exercise extreme caution.';
+            }
+
+            // Format and display prediction value
+            if (!isNaN(predictionValue)) {
+                const percentage = Math.round(predictionValue * 100);
+                probabilityValue.textContent = percentage + '%';
+                
+                // Animate probability bar
+                setTimeout(() => {
+                    probabilityFill.style.width = percentage + '%';
+                }, 1000);
+            } else {
+                probabilityValue.textContent = predictionText;
+            }
+
+            // Update confidence level
+            const probability = isNaN(predictionValue) ? 0.5 : predictionValue;
+            if (probability < 0.3 || probability > 0.7) {
+                confidenceValue.textContent = 'High';
+            } else {
+                confidenceValue.textContent = 'Medium';
+            }
+        }
+
+        // Initialize everything
+        createParticles();
+        updateUI();
+    </script>
+</body>
+</html>
