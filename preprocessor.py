@@ -50,9 +50,12 @@ end = round(time.time()-start, 2)
 print('✔️ DL model imported \t\t', end)
 
 # Parse binary email file
-def email_bytesparser(filepath):
-    with open(filepath, 'rb') as f:
-        parsed_email = BytesParser(policy=policy.default).parse(f)
+def email_bytesparser(file, filetype="bytefile"):
+    if filetype == "bytefile" :
+        parsed_email = BytesParser(policy=policy.default).parsebytes(file)
+    else :
+        with open(file, 'rb') as f:
+            parsed_email = BytesParser(policy=policy.default).parse(f)
     return parsed_email
 
 # html parser
