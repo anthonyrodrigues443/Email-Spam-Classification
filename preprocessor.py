@@ -121,7 +121,14 @@ def clean_text(text):
     if pd.isna(text):
         return np.nan
     else :
-        cleaned_text = re.sub(r'[^a-zA-Z\s]', ' ', text)
+        # Replaces URLs in a string with a single space.
+        url_pattern = re.compile(r'https?://\S+|www\.\S+|\b\S+\.(?:com|org|net|gov|edu|io|co|in|info)\b')
+        no_links_text = url_pattern.sub(' ', text)
+
+        # Removes all punctuations, numbers and symbols
+        words = [word for word in no_links_text.split() if not ( '>' in word or '<' in word or '=' in word)]
+        no_tags_text = ' '.join(words)
+        cleaned_text = re.sub(r'[^a-zA-Z\s]', ' ', no_tags_text)
         if cleaned_text.strip() != '':
             return extra_space_remover(cleaned_text)
         else :
@@ -129,9 +136,9 @@ def clean_text(text):
 
 # lemmatization and eliminating stopwords
 def processing_text(text, stopwords=stop_words):
-    text = re.sub('[^a-zA-Z]', ' ', text).lower()
     words = text.split()
-    words = [lem.lemmatize(word) for word in words if word not in stop_words]
+    words = [lem.lemmatize(word) for word in words if word not in stopwords]
+    words = [word for word in words if len(words) > 1]
     return ' '.join(words)
 
 def feature_engineering1(data):
@@ -161,6 +168,11 @@ def feature_engineering1(data):
     
     data['Content-type'] = data['Content-type'].apply(extract_cont_type)
     
+    # Cleaning text features
+    data['Full_content'] = data['Full_content'].apply(clean_text)
+    data['Subject'] = data['Subject'].apply(clean_text)
+
+
     # Creating new numeric features "sub_char" & "content_char"
     data['content_char'] = data['Full_content'].apply(len)
     data['sub_char'] = data['Subject'].apply(len)
@@ -251,5 +263,5 @@ def predictor(data):
     pred = model.predict(data)
     pred = round(pred[0][0], 2)
     end = round(time.time()-start, 2)
-    print('✔️Prediction \t\t', end)
+    print('✔️ Prediction \t\t', end)
     return pred
