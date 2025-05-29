@@ -16,3 +16,5 @@ This project is a deep learning-based system for classifying email messages as S
 - **Feature Engineering**: Extracts multiple features including recipient count, content type, reply status, subscription links and subject and body characters count.
 
 ## Webpage
+
+<img src="https://github.com/anthonyrodrigues443/Email-Spam-Classification/blob/main/webpage_ss/not_spam1.png" width="400px"><img src="https://github.com/anthonyrodrigues443/Email-Spam-Classification/blob/main/webpage_ss/not_spam2.png" width="400px"><img src="https://github.com/anthonyrodrigues443/Email-Spam-Classification/blob/main/webpage_ss/not_spam3.png" width="400px"><img src="https://github.com/anthonyrodrigues443/Email-Spam-Classification/blob/main/webpage_ss/spam1.png" width="400px"><img src="https://github.com/anthonyrodrigues443/Email-Spam-Classification/blob/main/webpage_ss/spam2.png" width="400px"><img src="https://github.com/anthonyrodrigues443/Email-Spam-Classification/blob/main/webpage_ss/spam3.png" width="400px">
