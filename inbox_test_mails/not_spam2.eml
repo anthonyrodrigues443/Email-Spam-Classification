@@ -1,297 +1,235 @@
-Delivered-To: anthonyrodrigues443@gmail.com
-Received: by 2002:a05:6f02:208e:b0:7f:5b14:4a22 with SMTP id f14csp2649800rcd;
-        Fri, 23 May 2025 08:28:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEhpMtpnlCA2dp7Z5kn4AspwKtt37665xTWY0cYPf8TuYVFCtYGLsdQJfIALtSMcCDUn9c3
-X-Received: by 2002:a05:6102:4194:b0:4dd:b259:ef34 with SMTP id ada2fe7eead31-4dfa6bc2153mr26748411137.10.1748014139512;
-        Fri, 23 May 2025 08:28:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1748014139; cv=none;
+Delivered-To: anthonyrodrigues443@student.sfit.ac.in
+Received: by 2002:a05:7108:7803:b0:3ff:18e6:e0da with SMTP id a3csp1744541gdu;
+        Thu, 15 May 2025 00:52:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFjaNUG/h6FNWVtTbjBTfZjfPRVGYC++flV+4XNPXOjs+Cm6T7xv1DKvmWg+NeuWF61OLwH
+X-Received: by 2002:a05:622a:6091:b0:494:9461:f5e5 with SMTP id d75a77b69052e-49495cdf5d8mr107072221cf.21.1747295561582;
+        Thu, 15 May 2025 00:52:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1747295561; cv=none;
         d=google.com; s=arc-20240605;
-        b=beUx7OHePAEp1M6o7gqkB0DodvIzrr6vp8cX07iv+i/S+q556QbLQndq6eqb9V4F/F
-         muYvEyQdyYs/wObL/YdJhXNlPEsbeZ9Nb3cr+5JrNdapqPApBHcoSEy0uxBvc4p+oKRK
-         b9dAHaDMfvNPJKbwt/m492QKZGFHumqtC+gAdmTESPQzlr2OLOQkmp92oME77vsUC21L
-         KUJgJU20KZOFbFRHIcupYI628BDbEkF56FYiBRrpOQoHMhMN8A3wAP2RqEC8ZyUuDfok
-         OR3DIme20P4BLzbGH3gxdzw3uoJ/HFdqR2UAG3qgrbyg+wb7L5O0PD5VARnCrmVpW1XY
-         RR7g==
+        b=UCcqbXIKnKCw28EKKO5KJpIp8erivBxUUYPBiwqaOIYLbDytGSnJB9gGrBCYdVwEI3
+         4iawQLnFkbPyF3+tCw6jwRCFTyMkg2yrmEOB+LTwx4s5+/Q3aUbghEFxxqE18Kg6zF2B
+         QmU1X76ZhU1f5rfPU6DVVtXziylLE0arzZ66iwIdKgGl0Iqhj8Yqx1uBIRmxo32D/T8/
+         J7EFp/CUg9fV/UFnM5dwWmzlhm1D63YcTBSUYKsqg3t2Euh9iN5VZ0T41+dj9nyWIjl4
+         ISQB24lCpnPQLTG6uFIbUVtp1EBGedSnFYTmLp1Y87DreVzMpT2n4vJMMwMs5VyuskO4
+         vP3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=feedback-id:message-id:date:content-language:mime-version:reply-to
-         :from:to:subject:list-unsubscribe:dkim-signature
-         :freelancer-domain-signer;
-        bh=gg4MJDUyuVTKXzOjEgssHPQxV1Gqk0Yfl8h4KDImlOc=;
-        fh=984w1zFwtPYUJ46wegq7v4AQ0xSNrLZKV4FEBsui18c=;
-        b=d0CydcUCnIWk9rQhm0hk920X0pL7W7Kd6ZKDzmQTmmLmzSiSxFeq5aEPdjMY6Mc9Nw
-         ib6k2zu4MIkd0K3nYXmP6uKzW5yjsnXZ2FtI4zk0pc4L/9kO0Mjs/vjQF5gKJaNwWlO9
-         1kC+HlKPbj6yaC6aXLjSB7gm9SQQ4hTAzZS4WAVXdD1DxmNQ4bAUOZ32+yR3NR1i28ES
-         IPvH9ZVROWikggUgz9yHIyQx2QVhtqNrkeG9fBN/9n5wLQGOKWiHPRFAOrFryHGk0YRv
-         DYa9MyJlwaiFbj8t7fOVN3jUX2eDDYH/2g79f/0bq0T3B09lo3GWwlZyHuHTF6eZcjVh
-         zI+A==;
+        h=to:subject:message-id:mime-version:from:date
+         :content-transfer-encoding:dkim-signature;
+        bh=mkv1b7Sh0OA8i+n/Br3udEb0RUCJlQPeIg8tYQsjbz4=;
+        fh=l6SKwZPRGTUFkTLgojgE88iD6aHsC2jWryfgaOuwiOA=;
+        b=hf8aDc5lsTjugV+Y7m/5g6h6kfjp7CMMiX+ZhbOdKSULAqAJSgip0jxDifBlgv5IKY
+         TyN9Peh6aOmoWoJk6Y4bzoVs3D5iNcnFiCXH5tHJrZvmefXVxp1sgeMJDOwsHwBClsR2
+         SCRmiUGApdxrC/cdgRcmdGdtYWfqMUDkCSijVteJfiU+XgqrJyKAu6MuPcYKze4cgK+j
+         ipr2Q4wQj/yNKmjvWAuyQ6KagqSq5vFVuCRynRU1kgivEJyWwmcHSikC5A5lZNi2r+th
+         BdaF5/bQ4od8JzQeAkSS3Obwrnh0Q6AjFFqzXKcsrNhCBSKsMLWFLt8wsMzOQjXJEQBQ
+         1yBQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; mx.google.com;
-       dkim=pass (test mode) header.i=@freelancer.com header.s=mail header.b=KbIkdq1h;
-       spf=pass (google.com: domain of messages@notifications.freelancer.com designates 174.129.202.232 as permitted sender) smtp.mailfrom=messages@notifications.freelancer.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=notifications.freelancer.com
-Return-Path: <messages@notifications.freelancer.com>
-Received: from mail002.use.t2.freelancer.com (mail002.use.t2.freelancer.com. [174.129.202.232])
-        by mx.google.com with UTF8SMTPS id ada2fe7eead31-4dfa66985d9si3967784137.68.2025.05.23.08.28.59
-        for <anthonyrodrigues443@gmail.com>
+       dkim=pass header.i=@iitkgp.ac.in header.s=s1 header.b=F85HmOmG;
+       spf=pass (google.com: domain of bounces+4465288-0cd4-anthonyrodrigues443=student.sfit.ac.in@ndlsupport.iitkgp.ac.in designates 167.89.2.128 as permitted sender) smtp.mailfrom="bounces+4465288-0cd4-anthonyrodrigues443=student.sfit.ac.in@ndlsupport.iitkgp.ac.in";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=iitkgp.ac.in
+Return-Path: <bounces+4465288-0cd4-anthonyrodrigues443=student.sfit.ac.in@ndlsupport.iitkgp.ac.in>
+Received: from xtrwhnvh.outbound-mail.sendgrid.net (xtrwhnvh.outbound-mail.sendgrid.net. [167.89.2.128])
+        by mx.google.com with ESMTPS id d75a77b69052e-4945259b049si156394331cf.553.2025.05.15.00.52.41
+        for <anthonyrodrigues443@student.sfit.ac.in>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 May 2025 08:28:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of messages@notifications.freelancer.com designates 174.129.202.232 as permitted sender) client-ip=174.129.202.232;
+        Thu, 15 May 2025 00:52:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bounces+4465288-0cd4-anthonyrodrigues443=student.sfit.ac.in@ndlsupport.iitkgp.ac.in designates 167.89.2.128 as permitted sender) client-ip=167.89.2.128;
 Authentication-Results: mx.google.com;
-       dkim=pass (test mode) header.i=@freelancer.com header.s=mail header.b=KbIkdq1h;
-       spf=pass (google.com: domain of messages@notifications.freelancer.com designates 174.129.202.232 as permitted sender) smtp.mailfrom=messages@notifications.freelancer.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=notifications.freelancer.com
-freelancer-domain-signer: signer-01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=freelancer.com;
- i=@freelancer.com; q=dns/txt; s=mail; t=1748014139; h=subject : to :
- from : date; bh=E7XDF9GUnq7atxE3C73+zTRJJxGkx/iZjNu81GxYMc0=;
- b=KbIkdq1huyPjf0+x3Z1yAZcTQqlSpXs0r/B4m6AXp+PNF2496anZSsVJfzSv/It78aSCo
- eMkGxd67MxqOb+AiLu+4rUSPrjWjvuH8mYCEtQ+1rzAfBHeo4B5VzvAK61lgzvQGrMqh3BM
- wvK9g0qf7SooJBgxSql+GNsQ9vFr63U=
-List-Unsubscribe: 
- <http://www.freelancer.com/bl-email/unsubscribe.php?id=67297673&token=69132076222602e9f86b3f606d5673e3&subject=Unsubscribe-New%2Bmessages%2Bfrom%2BNicholas%2BF.-67297673>
-Subject: New messages from Nicholas F.
-To: anthonyrodrigues443@gmail.com
-From: Nicholas F. via Freelancer <messages@notifications.freelancer.com>
-Reply-To: Nicholas F. via Freelancer
- <riksl3su62qtebtdljzwlgs5olzs5r6gc360582685+1748014139@reply.freelancer.com>
-MIME-version: 1.0
-Content-language: en
-X-Priority: 3 (Normal)
-X-Accept-Language: en
-Content-Type: multipart/alternative;
- 	boundary="b1_a4012ee97df7ce32f5fedb057b061b04"
-Date: Fri, 23 May 2025 11:28:59 -0400
-Message-Id: <noreply+mailer-6830943b1baee5.79273581@freelancer.com>
-Feedback-ID: 
- email|messaging/notification/digest:user|67297673:tier|lpcn:freelancer
-
---b1_a4012ee97df7ce32f5fedb057b061b04
-Content-Type: text/plain; charset="UTF-8"
+       dkim=pass header.i=@iitkgp.ac.in header.s=s1 header.b=F85HmOmG;
+       spf=pass (google.com: domain of bounces+4465288-0cd4-anthonyrodrigues443=student.sfit.ac.in@ndlsupport.iitkgp.ac.in designates 167.89.2.128 as permitted sender) smtp.mailfrom="bounces+4465288-0cd4-anthonyrodrigues443=student.sfit.ac.in@ndlsupport.iitkgp.ac.in";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=iitkgp.ac.in
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iitkgp.ac.in;
+	h=content-transfer-encoding:content-type:from:mime-version:subject:to:
+	cc:content-type:from:subject:to;
+	s=s1; bh=mkv1b7Sh0OA8i+n/Br3udEb0RUCJlQPeIg8tYQsjbz4=;
+	b=F85HmOmGWB1LE01GFMkB7PVg2GYU6nNgEkONhbX/lq0fStbOcM0C+bF4AESDeXuChrSH
+	giFnyRGHM6M45sMmVIUIAZ2920lyP08t9+75bvKm+EvVgBZuo52Fd3Q5XCfRYo2KYONW24
+	UQ0FcVX/ISIs3SpBx801vzD/IhAyaikZH5EFH0MjRkUfzqZULN3Vp8gXwkcLFiMrpAzviv
+	jhH3zOYRxK8XaRMX5SQcPnN+4AJw2DJiKr45d7j64xOJAKEzciM6dMdTtvGFuTBR73TiQS
+	bdxu097sEazfScNScRriUoOScdj4Y9gOkL3EZZMPU97fIMNo5042+Ev2jB9/1NWQ==
+Received: by recvd-7974cd866d-pvvjv with SMTP id recvd-7974cd866d-pvvjv-1-68259D48-3F
+	2025-05-15 07:52:40.94144471 +0000 UTC m=+3145457.769592449
+Received: from NDQ2NTI4OA (unknown)
+	by geopod-ismtpd-13 (SG) with HTTP
+	id can6gRFzRjqf9gMD3IzW5w
+	Thu, 15 May 2025 07:52:40.832 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=us-ascii
+Date: Thu, 15 May 2025 07:52:40 +0000 (UTC)
+From: NDLI CLUB <ndl.club@iitkgp.ac.in>
+Mime-Version: 1.0
+Message-ID: <can6gRFzRjqf9gMD3IzW5w@geopod-ismtpd-13>
+Subject: NDLI Club presents an event Effective Use of Subscribed Resources
+X-SG-EID: 
+ =?us-ascii?Q?u001=2EPbwP0VIbILQJfzA9av5xm1kzrs=2FsfvFGWSCz6UJhosO+ZTyQRg6jrR0ky?=
+ =?us-ascii?Q?DdCl+f6Qru9ytMbZr7PpRdvAwZlV8v12i3fyWSD?=
+ =?us-ascii?Q?fuq2ER9VUHMqMeKbr7snl4XNRTH6Eb+Ci6Qacgg?=
+ =?us-ascii?Q?a3pSxEBmS0YGw8vUjE4uXsYtV17fs8Dbe4Cwl+n?=
+ =?us-ascii?Q?mg8tBmtdMZ5mcRGlCmiC4XKfmpN0Yi5R3=2FRY29y?=
+ =?us-ascii?Q?nrulwGbTscukGWLIoc0Kldyfchtou6rO3Ja8oW4?=
+ =?us-ascii?Q?LtBnx7GQTAnEKpEBHR6yWe5atw=3D=3D?=
+X-SG-ID: 
+ =?us-ascii?Q?u001=2ESdBcvi+Evd=2FbQef8eZF3BpTL9BgbK5wfSJMJGMsmprDsPyUTnMagHRCjb?=
+ =?us-ascii?Q?=2F65GublB=2FtO9+wgk3IYFSVhNNNWiYjTrShHGELm?=
+ =?us-ascii?Q?a921+kdzQ2ghzsB7w=2FQEVKEiz70dJNxB+ho0ppD?=
+ =?us-ascii?Q?zYldJcflvLs9W+rcq=2FINr6FNfGfMUmboRJQ4pVm?=
+ =?us-ascii?Q?=2FJbs4QUuibi3wjRpoARjFALq5FjP=2FE0GqhL6K+N?=
+ =?us-ascii?Q?Q=3D=3D?=
+To: ANTHONY <anthonyrodrigues443@student.sfit.ac.in>
+X-Entity-ID: u001.lsUPJf6bQhPO2UUgvIrL6Q==
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8" =
+/>
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1.0"/>
+</head>
+<body>
+  <table class=3D"wrapper" role=3D"module" data-type=3D"image" border=3D"0"=
+ cellpadding=3D"0" cellspacing=3D"0" width=3D"100%" style=3D"table-layout: =
+fixed;">
+      <tr>
+        <td style=3D"font-size:10px;line-height:10px;background-color:#FFFF=
+FF;padding:15px 0px 15px 10px;" valign=3D"top" align=3D"center">
+          <img class=3D"max-width" width=3D"150" height=3D"50" src=3D"https=
+://user-images.githubusercontent.com/21694263/65243751-9655c180-db06-11e9-9=
+b57-b83e9d0286b9.png" alt=3D"" border=3D"0" style=3D"display:block;color:#0=
+00;text-decoration:none;font-family:Helvetica, arial, sans-serif;font-size:=
+16px;">
+        </td>
+      </tr>
+    </table>
+  <!--<h3 style=3D"text-align:center; font-size:30px;" >
+    St. Francis Institute of Technology <br> NDLI Club presents Effective U=
+se of Subscribed Resources
+  </h3><br> --->
+  <!-- <h3 style=3D"text-align:center; font-size:30px;" >
+    St. Francis Institute of Technology <br> NDLI Club organises Effective =
+Use of Subscribed Resources --->
+  </h3><br>
+  <p style=3D" font-size:18px; padding-left:20px; font-family:Helvetica">De=
+ar  ANTHONY, <br><br>We are pleased to invite you to the Effective Use of S=
+ubscribed Resources. The event details are mentioned below and you can regi=
+ster for the the event by clicking the Register Now button at the bottom:<b=
+r><br>
+       =20
+    <p style=3D" font-size:18px; padding-left:20px; font-family:Helvetica">=
+Event Date and Time: Fri May 16, 2025,  02:00 PM .</p>
+ =20
+   <p style=3D" font-size:18px; padding-left:20px; font-family:Helvetica">E=
+vent Location : Online: https://meeting.zoho.in/meeting/register?sessionId=
+=3D1379826585 .</p>
+ =20
+  <!--- <p style=3D" font-size:18px; padding-left:20px; font-family:Helveti=
+ca">Event Location/ Online URL: Online: https://meeting.zoho.in/meeting/reg=
+ister?sessionId=3D1379826585 .</p>  -->
+ =20
 
-
-(https://www.freelancer.com/)
-
-Nicholas F. (https://www.freelancer.com/users/login-quick.php?token=3D5115=
-e812b9de952e82e792aef0bf0840d6f3954c1bf898887c8e7e9353776c5b&url=3D%2Fuser=
-s%2F76737736.html&user_id=3D67297673&expire_at=3D1753198139&uniqid=3D67297=
-673-490668-6830943b-f92874be)
-
-Profile Picture of Freelancer
-
-Hello Anthony! I'm a sales agent for Freelancer in the Membership Team, =
-and I'm glad to assist you today. I see that you=E2=80=99re experienced in =
-machine learning and deep learning, which is fantastic!
-
-Since you=E2=80=99re keen on solving problems, I believe our membership =
-plans can really help enhance your freelance experience and boost your =
-earnings. With a membership, you can access additional bids, which =
-translates to more opportunities to work on projects.
-
-For instance, our **Plus Plan** offers 100 bids a month, client engagement =
-features, and more=E2=80=94just what you need to maximize your project =
-applications. The **Professional Plan** could be even better, giving you =
-300 bids each month along with insights on your bids to optimize your =
-approach.
-
-Would you like to know more about specific plans and their pricing?
-
-8:56: PM IST
-
-View Messages =E2=86=92 (https://www.freelancer.com/users/login-quick.php?=
-token=3D04fe0040642caad05620aa3076459b679bc05412ad382fda8aba47b565b7f2cd&u=
-rl=3D%2Fmessages%2Fthread%2F360582685&user_id=3D67297673&expire_at=3D17531=
-98139&uniqid=3D67297673-490668-6830943b-f92874be)
-
-Or send a message to Nicholas F. (https://www.freelancer.com/users/login-q=
-uick.php?token=3D5115e812b9de952e82e792aef0bf0840d6f3954c1bf898887c8e7e935=
-3776c5b&url=3D%2Fusers%2F76737736.html&user_id=3D67297673&expire_at=3D1753=
-198139&uniqid=3D67297673-490668-6830943b-f92874be) by replying to this =
-email.
-
-Your email address must be linked to your Freelancer.com account.
-
-=C2=A9 2025 Freelancer Technology Pty Limited. All Rights Reserved.
-
-Level 37, 225 George Street, Sydney, NSW 2000, Australia
-
-Privacy Policy (https://www.freelancer.com/page.php?p=3Dinfo%2Fprivacy)  | =
- Terms and Conditions =
-(https://www.freelancer.com/page.php?p=3Dinfo%2Fterms)  |  Unsubscribe =
-(https://www.freelancer.com/users/email/subscriptions.php?token=3DeyJhbGci=
-OiJIUzI1NiIsInR5cCI6IkZyZWVsYW5jZXJcXEdBRlxcQ29yZVxcSldUXFxKV1QifQ.eyJpZCI=
-6IjY3Mjk3NjczIiwic3ViIjoidW5zdWJzY3JpYmUiLCJpYXQiOjE3NDgwMTQxMzl9.gWULgRZL=
-QysZ-nUAvM9EafUgFq40KRa3YoDLfqqO3Gw&target_setting=3Dstaff_message)  |  =
-Get Support (https://www.freelancer.com/support)  |  Get Free Credit =
-(https://www.freelancer.com/give?from=3Demail_footer)
-
-Facebook (https://www.facebook.com/fansoffreelancer)
-
-Twitter (https://twitter.com/freelancer)
-
-Instagram (https://www.instagram.com/freelancerofficial)
-
-Download our mobile app (https://www.freelancer.com/download)
-
-(https://www.freelancer.com/download)
-
-
-
---b1_a4012ee97df7ce32f5fedb057b061b04
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<!doctypehtml PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w=
-3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns=3Dhttp://www.w3.or=
-g/1999/xhtml><meta content=3D"text/html; charset=3DUTF-8"http-equiv=3DConte=
-nt-Type><style>html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%=
-;font-size:100%}body{color:#0e1724;background-color:#fff;margin:0;font-size=
-:14px;line-height:18px}a{color:#0087e0;border:0;text-decoration:none}a:hove=
-r{color:#139ff0;text-decoration:underline}p{color:#0e1724;margin:0!importan=
-t;padding:0!important}img{border:none}</style><style>td{font-family:Helveti=
-ca,Arial,sans-serif!important}</style><body style=3Dbackground-color:#fff><=
-table align=3Dcenter bgcolor=3D#FFFFFF border=3D0 cellpadding=3D0 cellspaci=
-ng=3D0 height=3D100% style=3Dfont-family:Helvetica,Arial,sans-serif!importa=
-nt width=3D100%><tr><td><table align=3Dcenter border=3D0 cellpadding=3D0 ce=
-llspacing=3D0 width=3D690><tr><td align=3Dcenter width=3D100%><a href=3Dhtt=
-ps://www.freelancer.com/?uniqid=3D67297673-490668-6830943b-f92874be&linkid=
-=3D0> <img alt border=3D0 src=3Dhttps://cdn5.f-cdn.com/img/email-images/com=
-mon/logo_300.png?v=3D834faebc40fa464bac75aca01de49a50&m=3D6&buildVersion=3D=
-300e61df6ff5f0acfa8ecf0bd1b04e557716f3bf style=3Dpadding:30px;display:block=
- width=3D150> </a><tr><td align=3Dcenter width=3D100%><table align=3Dcenter=
- bgcolor=3D#ffffff border=3D0 cellpadding=3D0 cellspacing=3D0 width=3D100%>=
-<tbody><tr><td><table align=3Dleft border=3D0 cellpadding=3D0 cellspacing=
-=3D0 width=3D100%></table><tr><td align=3Dcenter width=3D100%><table align=
-=3Dcenter border=3D0 cellpadding=3D0 cellspacing=3D0 width=3D100%><tr><td a=
-lign=3Dcenter width=3D100%><table align=3Dcenter border=3D0 cellpadding=3D0=
- cellspacing=3D0 width=3D100%><tr><td height=3D24 width=3D100%><tr><td alig=
-n=3Dcenter width=3D100%><table align=3Dcenter border=3D0 cellpadding=3D0 ce=
-llspacing=3D0 width=3D630><tr><td align=3Dleft><a href=3Dhttps://www.freela=
-ncer.com/users/login-quick.php?token=3D5115e812b9de952e82e792aef0bf0840d6f3=
-954c1bf898887c8e7e9353776c5b&url=3D%2Fusers%2F76737736.html&user_id=3D67297=
-673&expire_at=3D1753198139&uniqid=3D67297673-490668-6830943b-f92874be&linki=
-d=3D1 style=3Dcolor:#000;font-weight:700 target=3D_blank> <span style=3Dcol=
-or:#000;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif=
-;font-size:20px;font-weight:700;line-height:1.5>Nicholas F.</span> </a></ta=
-ble><tr><td height=3D24 width=3D100%></table><tr><td><table align=3Dcenter =
-border=3D0 cellpadding=3D0 cellspacing=3D0><tr><td align=3Dcenter><table al=
-ign=3Dcenter border=3D0 cellpadding=3D0 cellspacing=3D0 width=3D690><tr><td=
- align=3Dcenter><table align=3Dcenter border=3D0 cellpadding=3D0 cellspacin=
-g=3D0 width=3D630><tr><td align=3Dleft valign=3Dtop width=3D80><img alt=3D"=
-Profile Picture of Freelancer"style=3D"border:1px solid #e5e5e5;border-radi=
-us:3px"height=3D64 src=3Dhttps://cdn2.f-cdn.com/ppic/249819695/logo/7673773=
-6/unnamed%20%281%29.png width=3D64><td width=3D24><td align=3Dleft valign=
-=3Dtop><table style=3D"border:1px solid #e5e5e5;border-radius:3px"bgcolor=
-=3D#ffffff width=3D100%><tr><td colspan=3D5 height=3D12><tr><td width=3D36>=
-<td valign=3Dtop width=3D480><span style=3Dcolor:#000;mso-line-height-rule:=
-exactly;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:4=
-00;line-height:1.5>Hello Anthony! I'm a sales agent for Freelancer in the M=
-embership Team, and I'm glad to assist you today. I see that you=E2=80=99re=
- experienced in machine learning and deep learning, which is fantastic! <br=
-> <br> Since you=E2=80=99re keen on solving problems, I believe our members=
-hip plans can really help enhance your freelance experience and boost your =
-earnings. With a membership, you can access additional bids, which translat=
-es to more opportunities to work on projects. <br> <br> For instance, our *=
-*Plus Plan** offers 100 bids a month, client engagement features, and more=
-=E2=80=94just what you need to maximize your project applications. The **Pr=
-ofessional Plan** could be even better, giving you 300 bids each month alon=
-g with insights on your bids to optimize your approach.<br> <br> Would you =
-like to know more about specific plans and their pricing?</span><td width=
-=3D12><td valign=3Dtop width=3D120><span style=3Dcolor:#000;mso-line-height=
--rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-we=
-ight:400;line-height:1.5>8:56: PM IST</span><td width=3D36><tr><td colspan=
-=3D5 height=3D12></table><tr><td colspan=3D3 height=3D12></table><tr><td he=
-ight=3D24><tr><td align=3Dcenter><table border=3D0 cellpadding=3D0 cellspac=
-ing=3D0><tr><td align=3Dcenter bgcolor=3D#0087e0><a style=3D"border:1px sol=
-id #0087e0;padding:15px 26px;text-decoration:none;display:inline-block"href=
-=3Dhttps://www.freelancer.com/users/login-quick.php?token=3D04fe0040642caad=
-05620aa3076459b679bc05412ad382fda8aba47b565b7f2cd&url=3D%2Fmessages%2Fthrea=
-d%2F360582685&user_id=3D67297673&expire_at=3D1753198139&uniqid=3D67297673-4=
-90668-6830943b-f92874be&linkid=3D2 target=3D_blank> <span style=3Dcolor:#ff=
-f;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-=
-size:16px;font-weight:700;line-height:1.5>View Messages =E2=86=92</span> </=
-a></table><tr><td height=3D24><tr><td align=3Dcenter><span style=3Dcolor:#0=
-00;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font=
--size:16px;font-weight:400;line-height:1.5>Or send a message to <a href=3Dh=
-ttps://www.freelancer.com/users/login-quick.php?token=3D5115e812b9de952e82e=
-792aef0bf0840d6f3954c1bf898887c8e7e9353776c5b&url=3D%2Fusers%2F76737736.htm=
-l&user_id=3D67297673&expire_at=3D1753198139&uniqid=3D67297673-490668-683094=
-3b-f92874be&linkid=3D3 style=3Dcolor:#000;font-weight:700 target=3D_blank> =
-Nicholas F.</a> by <span style=3Dcolor:#000;font-family:Helvetica,Arial,san=
-s-serif;font-size:inherit;font-weight:700;line-height:inherit;mso-line-heig=
-ht-rule:exactly> replying to this email. </span></span><tr><td height=3D8><=
-tr><td align=3Dcenter><span style=3Dcolor:#000;mso-line-height-rule:exactly=
-;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:400;line=
--height:1.5>Your email address must be linked to your Freelancer.com accoun=
-t.</span><tr><td height=3D24><tr><td height=3D48></table></table></table><t=
-r><td><table align=3Dleft border=3D0 cellpadding=3D0 cellspacing=3D0 width=
-=3D100%></table></table><tr><td><table align=3Dcenter border=3D0 cellpaddin=
-g=3D0 cellspacing=3D0 width=3D100%><tr><td height=3D24><tr><td align=3Dcent=
-er><span style=3Dcolor:#000;mso-line-height-rule:exactly;font-family:Helvet=
-ica,Arial,sans-serif;font-size:13px;font-weight:400;line-height:1.5>=C2=A9 =
-2025 Freelancer Technology Pty Limited. All Rights Reserved.</span><tr><td =
-height=3D8><tr><td align=3Dcenter><span style=3Dcolor:#000;mso-line-height-=
-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-wei=
-ght:400;line-height:1.5>Level 37, 225 George Street, Sydney, NSW 2000, Aust=
-ralia</span><tr><td height=3D8><tr><td align=3Dcenter><a href=3Dhttps://www=
-.freelancer.com/page.php?p=3Dinfo%2Fprivacy&uniqid=3D67297673-490668-683094=
-3b-f92874be&linkid=3D4 style=3Dcolor:#000;font-weight:400;text-decoration:u=
-nderline target=3D_blank> <span style=3Dcolor:#000;mso-line-height-rule:exa=
-ctly;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:400;=
-line-height:1.5;text-decoration:underline>Privacy Policy</span> </a> =C2=A0=
- <span style=3Dcolor:#000;mso-line-height-rule:exactly;font-family:Helvetic=
-a,Arial,sans-serif;font-size:13px;font-weight:400;line-height:1.5>|</span> =
-=C2=A0 <a href=3Dhttps://www.freelancer.com/page.php?p=3Dinfo%2Fterms&uniqi=
-d=3D67297673-490668-6830943b-f92874be&linkid=3D5 style=3Dcolor:#000;font-we=
-ight:400;text-decoration:underline target=3D_blank> <span style=3Dcolor:#00=
-0;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-=
-size:13px;font-weight:400;line-height:1.5;text-decoration:underline>Terms a=
-nd Conditions</span> </a> =C2=A0 <span style=3Dcolor:#000;mso-line-height-r=
-ule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weig=
-ht:400;line-height:1.5>|</span> =C2=A0 <a href=3Dhttps://www.freelancer.com=
-/users/email/subscriptions.php?token=3DeyJhbGciOiJIUzI1NiIsInR5cCI6IkZyZWVs=
-YW5jZXJcXEdBRlxcQ29yZVxcSldUXFxKV1QifQ.eyJpZCI6IjY3Mjk3NjczIiwic3ViIjoidW5z=
-dWJzY3JpYmUiLCJpYXQiOjE3NDgwMTQxMzl9.gWULgRZLQysZ-nUAvM9EafUgFq40KRa3YoDLfq=
-qO3Gw&target_setting=3Dstaff_message&uniqid=3D67297673-490668-6830943b-f928=
-74be&linkid=3D6 style=3Dcolor:#000;font-weight:400;text-decoration:underlin=
-e target=3D_blank> <span style=3Dcolor:#000;mso-line-height-rule:exactly;fo=
-nt-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:400;line-he=
-ight:1.5;text-decoration:underline>Unsubscribe</span> </a> =C2=A0 <span sty=
-le=3Dcolor:#000;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sa=
-ns-serif;font-size:13px;font-weight:400;line-height:1.5>|</span> =C2=A0 <a =
-href=3Dhttps://www.freelancer.com/support?uniqid=3D67297673-490668-6830943b=
--f92874be&linkid=3D7 style=3Dcolor:#000;font-weight:400;text-decoration:und=
-erline target=3D_blank> <span style=3Dcolor:#000;mso-line-height-rule:exact=
-ly;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:400;li=
-ne-height:1.5;text-decoration:underline>Get Support</span> </a> =C2=A0 <spa=
-n style=3Dcolor:#000;mso-line-height-rule:exactly;font-family:Helvetica,Ari=
-al,sans-serif;font-size:13px;font-weight:400;line-height:1.5>|</span> =C2=
-=A0 <a href=3Dhttps://www.freelancer.com/give?from=3Demail_footer&uniqid=3D=
-67297673-490668-6830943b-f92874be&linkid=3D8 style=3Dcolor:#000;font-weight=
-:400;text-decoration:underline target=3D_blank> <span style=3Dcolor:#000;ms=
-o-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size=
-:13px;font-weight:400;line-height:1.5;text-decoration:underline>Get Free Cr=
-edit</span> </a><tr><td height=3D16><tr><td align=3Dcenter><table align=3Dc=
-enter border=3D0 cellpadding=3D0 cellspacing=3D0><tr><td><a href=3Dhttps://=
-www.facebook.com/fansoffreelancer> <img alt=3DFacebook border=3D0 src=3Dhtt=
-ps://d3bvzwcd1dw6vt.cloudfront.net/static/images/email/build/19bacfd0c58e6a=
-35b841790d89354564.png width=3D24> </a><td width=3D4><td><a href=3Dhttps://=
-twitter.com/freelancer> <img alt=3DTwitter border=3D0 src=3Dhttps://d3bvzwc=
-d1dw6vt.cloudfront.net/static/images/email/build/cf858d8bbdf01f6d8f3a7f3ecb=
-08f266.png width=3D24> </a><td width=3D4><td><a href=3Dhttps://www.instagra=
-m.com/freelancerofficial> <img alt=3DInstagram border=3D0 src=3Dhttps://d3b=
-vzwcd1dw6vt.cloudfront.net/static/images/email/build/7517195fa748ffb4ccc210=
-202e644d7d.png width=3D24> </a><td width=3D16><td><a href=3Dhttps://www.fre=
-elancer.com/download?uniqid=3D67297673-490668-6830943b-f92874be&linkid=3D9 =
-style=3Dcolor:#000;font-weight:400 target=3D_blank> <span style=3Dcolor:#00=
-0;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-=
-size:13px;font-weight:400;line-height:1.5>Download our mobile app</span> </=
-a><td width=3D4><td><a href=3Dhttps://www.freelancer.com/download?uniqid=3D=
-67297673-490668-6830943b-f92874be&linkid=3D10> <img border=3D0 src=3Dhttps:=
-//d3bvzwcd1dw6vt.cloudfront.net/static/images/email/build/b98e76935f88dac4c=
-bd67e14f237d7cc.png style=3Ddisplay:inline width=3D38> </a></table><tr><td =
-height=3D24></table></table></table><img style=3D"border:1px solid #d9d9d9"=
-src=3Dhttps://t.freelancer.com/1px.gif?en=3Demail-tracking.opened&acct=3D.F=
-reelancer.com&uniqid=3D67297673-490668-6830943b-f92874be>
---b1_a4012ee97df7ce32f5fedb057b061b04--
+  <!---<div style=3D"text-align:center; margin-top:36px">
+    <a  href=3D'https://u4465288.ct.sendgrid.net/ls/click?upn=3Du001.60YJKK=
+O-2BdVEKZL1Y4rD3gEXhn6RuJ6Cf2X298CeJlXwImCD6FZ0YYEKqCQst3ktjNQyA_xN-2FQrjIy=
+aE97uHNrELIT10QOJvC2-2Bgl3AMnZTAI3PAAfDLABFmMSAujmF04s4VyFOer-2FeS12eLUpMVC=
+zLcHZohg8EHebqXnzh5tjaG98Z-2BNlFeD1nHzdi3JSw-2BzEKQtPy927uc4g2QvfpwDoSND5wr=
+9hQ-2FxEWt7IuDtda4PbwTpc5OhH2Am7-2BSry6qqTC8HCeRpZoSuVToDu6x-2FCT-2BPxEMnVJ=
+bI1-2FLMjvj4U-2BCY7yzrqltphUBsKjm6FWeZHJ2nNZH6pjXAlyO5MVtqdsEclsMGr1KMAEHF-=
+2F2NMgxiJvh7hV1yuwyOe6lEy08fSOrQh7K6psSvt4Va2M1-2BN8ZIXbAExQnm9d0ncbhM6S-2B=
+dPmfifMUlnDYYT-2FW6dGihYIOlXcdjIwvbefjuQQ47RRcMeevQ-3D-3D' target=3D"_blank=
+">
+      <button style=3D"background-color:#1C4923; color:white; height:40px;w=
+idth:150px; border-radius:7px; font-family:Helvetica" type=3D"button"> Regi=
+ster Now</button>
+    </a>
+ =20
+  </div> --->
+  <p style=3D" font-size:18px; padding-left:20px; font-family:Helvetica">Ev=
+ent Description:Time	Activity
+2.00 pm	Welcome and Introduction
+	- Brief introduction to the session and its purpose
+	- Overview of the Knimbus platform and its benefits
+2:10 pm	Session 1: Introduction to Knimbus Subscribed Resources
+	- Overview of available resources and how to access them
+	- Demonstration of platform features and functionalities
+2:30 pm	Session 2: Best Practices for Using Knimbus
+	- Tips and tricks for effective resource management
+	- Search techniques, saving resources, and managing access
+2:50 pm	Q&amp;A Session
+	- Open floor for participants to ask questions
+3:10 pm	Session 3: Advanced Features of Knimbus
+	- Exploring advanced search features and analytical tools
+	- How Knimbus can enhance academic and research productivity
+3:40 pm	Closing Remarks
+	- Final thoughts, thank you note, and feedback invitation
+	- Information on how to contact Knimbus for support
+4:00 pm	End of Webinar</p>
+ =20
+  <p style=3D" font-size:18px; padding-left:20px; font-family:Helvetica">Pr=
+ocess to Register for the Event:</p>
+ =20
+  <p style=3D" font-size:18px; padding-left:20px; font-family:Helvetica">St=
+ep 1: Kindly click on the Register Now button at the bottom of this eMail.:=
+</p>
+ =20
+  <p style=3D" font-size:18px; padding-left:20px; font-family:Helvetica">St=
+ep 2: You will be taken to the NDLI Club member sign-in page:</p>
+ =20
+  <p style=3D" font-size:18px; padding-left:20px; font-family:Helvetica">St=
+ep 3: You are requested to enter your NDLI Club registered eMail ID (Userna=
+me) and Password:</p>
+ =20
+  <p style=3D" font-size:18px; padding-left:20px; font-family:Helvetica">St=
+ep 4: After logging-in, you will have to click on the Events button at the =
+top bar and click on the Event you wish to register.</p>
+ =20
+  <p style=3D" font-size:18px; padding-left:20px; font-family:Helvetica">St=
+ep 5: Then Click on the Check Eligibility (Register) button available at th=
+e right side of the event. Once it shows, you are Eligible, then Click on t=
+he Participate button.</p>
+ =20
+  <div style=3D"text-align:center; margin-top:36px">
+    <a  href=3D'https://u4465288.ct.sendgrid.net/ls/click?upn=3Du001.60YJKK=
+O-2BdVEKZL1Y4rD3gEXhn6RuJ6Cf2X298CeJlXwImCD6FZ0YYEKqCQst3ktj4eDj_xN-2FQrjIy=
+aE97uHNrELIT10QOJvC2-2Bgl3AMnZTAI3PAAfDLABFmMSAujmF04s4VyFOer-2FeS12eLUpMVC=
+zLcHZohg8EHebqXnzh5tjaG98Z-2BNlFeD1nHzdi3JSw-2BzEKQtPy927uc4g2QvfpwDoSND5wr=
+9hQ-2FxEWt7IuDtda4PbwTpc5OhH2Am7-2BSry6qqTC8HCeRpZoSuVToDu6x-2FCT-2BPxEMnVJ=
+bI1-2FLMjvj4U-2BCY7yzrqltphUBsKjm6FWeZHJ2nNZK4co3PQ19IddZJJYKg2Gg72kXhDvFV9=
+ObDuANi0Rc08Sw-2ByVQCOrliv-2BHFeQscI2FS0AVVFcMYAJPTfJUhjwegnACfJueFUfJnrvOQ=
+vrIyKIAgzDAOyEDZWRWclAlRFLusmsXRJy1q1f6EAKyYwAg-3D-3D' target=3D"_blank">
+      <button style=3D"background-color:#1C4923; color:white; height:40px;w=
+idth:150px; border-radius:7px; font-size:15px; font-family:Helvetica" type=
+=3D"button"> Register Now</button>
+    </a>
+ =20
+  </div>
+ =20
+  <!--<p style=3D"margin-left:20px;  margin-top:30px; font-size:18px; font-=
+family:Helvetica"> Please Sign In at URL, check the Event details and eligi=
+bility criteria and if eligible, register for the Event. -->
+  <!--- <p style=3D"margin-left:20px;  margin-top:30px; font-size:18px; fon=
+t-family:Helvetica"> Please click on the registration link above to registe=
+r for the event ---->
+=20
+  <!--- <p style=3D"padding-left:23px; font-size:20px;"><b>NDLI Club Team</=
+b></p> --->
+  <div style=3D"padding-left:23px; margin-top:40px; font-size:18px;"><b>Tha=
+nks,</b></div>
+  <div style=3D"padding-left:23px; font-size:18px;"><b>NDLI Club of St. Fra=
+ncis Institute of Technology</b></div>
+  <!--- <div style=3D"padding-left:23px; font-size:18px;"><b>IIT Kharagpur.=
+</b></div> -->
+<img src=3D"https://u4465288.ct.sendgrid.net/wf/open?upn=3Du001.RUV2coUbTc2=
+UoojA-2F3fo6CD6XzmVCu-2Foq9tX34OD-2FZ7rLngfIwEhZVMs5eoV1UvI6UI7-2BbuJpDK5F-=
+2BiPry8NBUueDFpdDhwbqrNMUP3C1JC-2BDqSnZHP-2BXNHgdKthUsPsdhmH-2FqDwRpeBdBe4M=
+UMgBPF8VEBuJ-2BWUyL9jMwYFk27i5g7jmliDi-2FU86kK86LLClQs-2BDcDbAQMjXsdWPe1Hju=
+qO-2B8B-2F8ZYstEBU6woVmQuq3UW-2BlCnPFMh0rbhmTtv9xRLGdGTq1aoyQW3VafJnSwAI-2F=
+6Ix5zEz2TFE0aUDS0bJ3HrZCahjrLApXDYuMtcVJiQKZmkhdIRpE7pRqGOIzrSxRDnoeMVJSusl=
+nSr8ACsrlmXMJhaQ6346lVPQhRC1aH5JSXIW63emuEUcYCNUzQ-3D-3D" alt=3D"" width=3D=
+"1" height=3D"1" border=3D"0" style=3D"height:1px !important;width:1px !imp=
+ortant;border-width:0 !important;margin-top:0 !important;margin-bottom:0 !i=
+mportant;margin-right:0 !important;margin-left:0 !important;padding-top:0 !=
+important;padding-bottom:0 !important;padding-right:0 !important;padding-le=
+ft:0 !important;"/></body>
+</html>
