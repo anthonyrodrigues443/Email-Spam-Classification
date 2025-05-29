@@ -140,8 +140,8 @@ def clean_text(text):
 # lemmatization and eliminating stopwords
 def processing_text(text, stopwords=stop_words):
     words = text.split()
-    words = [lem.lemmatize(word) for word in words if word not in stopwords]
-    words = [word for word in words if len(words) > 1]
+    words = [lem.lemmatize(word) for word in words if ((word not in stopwords) and (len(str(word)) > 1)) ]
+    words = [word for word in words if len(word) > 1]
     return ' '.join(words)
 
 def feature_engineering1(data):
