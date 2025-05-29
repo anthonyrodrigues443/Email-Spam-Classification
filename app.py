@@ -1,52 +1,34 @@
-from flask import Flask, request, render_template, send_from_directory
-from email import policy
-from email.parser import BytesParser
+from flask import Flask, render_template, request
 import preprocessor
 import os
+import matplotlib.pyplot as plt
+import io
+import base64
+from matplotlib.backends.backend_agg import FigureCanvasAgg
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-    email_data = {}
-    attachments = []
+    return render_template('index.html')
 
-    if request.method == 'POST':
-        file = request.files['email_file']
-        if file and file.filename.endswith('.eml'):
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(filepath)
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    file = request.files['email_file']
+    if file.filename == '':
+        return "No selected file", 400
+    
+    # Read file content directly into memory
+    file_content = file.read()
+    
+    # Process the file content directly (you'll need to modify your preprocessor)
+    processed_data = preprocessor.pipeline(file_content)
+    pred = preprocessor.predictor(processed_data)
+    spam_val = pred
+    not_spam_val = round(1.0 - pred, 2)
 
-            with open(filepath, 'rb') as f:
-                msg = BytesParser(policy=policy.default).parse(f)
-                print(msg)
-                f.close()
-        email_df = preprocessor.return_dicts(msg)
-                
-
-    return render_template('index.html', email=email_data, attachments=attachments)
-
-def get_body(msg, html=False):
-    if msg.is_multipart():
-        for part in msg.walk():
-            content_type = part.get_content_type()
-            if html and content_type == 'text/html':
-                return part.get_payload(decode=True).decode()
-            elif not html and content_type == 'text/plain':
-                return part.get_payload(decode=True).decode()
-    else:
-        return msg.get_payload(decode=True).decode()
-    return ""
-
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
+    label = "Spam" if pred > 0.5 else "Legitimate"
+    return render_template('result.html', prediction=pred, label=label)
 
 if __name__ == '__main__':
     app.run(debug=True)
