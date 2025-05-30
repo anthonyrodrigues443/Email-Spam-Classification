@@ -14,7 +14,7 @@ This project is a deep learning-based system for classifying email messages as S
 - **Real-time Email Classification**: Upload email files (.eml format) and get instant spam/legitimate predictions
 - **Advanced NLP Pipeline**: Comprehensive text preprocessing including lemmatization, stopword removal, and TF-IDF vectorization
 - **Deep Learning Model**: Artificial Neural Network (ANN) trained for binary classification
-- **Web Interface**: User-friendly Flask-based web application (**CREDITS:** Frontend design fully developed by **"Claude ai"** and **"Gemini ai"**)
+- **Web Interface**: User-friendly Flask-based web application (**CREDITS:** Frontend and UI fully developed by **"Claude ai"** and **"Gemini ai"**)
 - **Feature Engineering**: Extracts multiple features including recipient count, content type, reply status, subscription links and subject and body characters count.
 
 
