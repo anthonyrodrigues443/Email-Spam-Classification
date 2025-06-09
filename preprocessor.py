@@ -25,6 +25,13 @@ def get_stopwords():
         nltk.download('stopwords', download_dir='/opt/render/nltk_data')
         return stopwords.words('english')
 
+def get_lemmatizer():
+    try:
+        return WordNetLemmatizer()
+    except LookupError:
+        nltk.download('wordnet', download_dir='/opt/render/nltk_data')
+        return WordNetLemmatizer()
+
 stop_words = get_stopwords()
 lem = WordNetLemmatizer()
 
