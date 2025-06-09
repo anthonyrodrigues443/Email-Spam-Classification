@@ -10,7 +10,13 @@ import numpy as np
 import re
 import pickle
 from bs4 import BeautifulSoup
+
+import nltk
+nltk.data.path.append('/opt/render/nltk_data')
+
 from nltk.corpus import stopwords
+stop_words = stopwords.words('english')
+
 from nltk.stem import WordNetLemmatizer
 import os
 
