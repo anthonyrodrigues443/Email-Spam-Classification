@@ -50,8 +50,8 @@ end = round(time.time()-start, 2)
 print('✔️ DL model imported \t\t', end)
 
 # Parse binary email file
-def email_bytesparser(file, filetype="bytefile"):
-    if filetype == "bytefile" :
+def email_bytesparser(file, filepath=False):
+    if filepath == False:
         parsed_email = BytesParser(policy=policy.default).parsebytes(file)
     else :
         with open(file, 'rb') as f:
@@ -226,9 +226,9 @@ def data_concatenation(content_vectors, subject_vectors, data):
     final_X = np.concatenate((X_1, X_2), axis=1)
     return final_X
 
-def pipeline(filepath):
+def pipeline(file, filepath=False):
     start = time.time()
-    parsed_mail = email_bytesparser(filepath)
+    parsed_mail = email_bytesparser(file, filepath)
     end = round(time.time()-start, 2)
     print('✔️ Email binary file parsing \t\t', end)
     start = time.time()
