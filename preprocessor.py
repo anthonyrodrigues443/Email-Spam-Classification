@@ -14,12 +14,21 @@ from bs4 import BeautifulSoup
 import nltk
 nltk.data.path.append('/opt/render/nltk_data')
 
-from nltk.corpus import stopwords
-stop_words = stopwords.words('english')
-
 from nltk.stem import WordNetLemmatizer
-import os
+from nltk.corpus import stopwords
 
+# Lazy loading stopwords with fallback
+def get_stopwords():
+    try:
+        return stopwords.words('english')
+    except LookupError:
+        nltk.download('stopwords', download_dir='/opt/render/nltk_data')
+        return stopwords.words('english')
+
+stop_words = get_stopwords()
+lem = WordNetLemmatizer()
+
+import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import tensorflow as tf
 
