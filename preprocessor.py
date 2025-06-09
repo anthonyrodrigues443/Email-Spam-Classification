@@ -2,7 +2,7 @@
 import time
 initial_start = time.time()
 
-import email
+import os
 from email import policy
 from email.parser import BytesParser
 import pandas as pd
@@ -35,7 +35,6 @@ def get_lemmatizer():
 stop_words = get_stopwords()
 lem = WordNetLemmatizer()
 
-import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import tensorflow as tf
 
