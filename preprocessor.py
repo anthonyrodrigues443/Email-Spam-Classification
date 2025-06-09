@@ -15,6 +15,17 @@ from bs4 import BeautifulSoup
 import nltk
 nltk.data.path.append('/opt/render/nltk_data')
 
+import nltk
+import os
+
+# Download NLTK data on first run
+try:
+    nltk.data.find('corpora/wordnet')
+except LookupError:
+    nltk.download('wordnet', download_dir='/opt/render/nltk_data')
+    nltk.download('punkt', download_dir='/opt/render/nltk_data')
+    nltk.download('stopwords', download_dir='/opt/render/nltk_data')
+
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
