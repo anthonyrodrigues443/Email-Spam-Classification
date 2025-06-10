@@ -3,6 +3,7 @@ import time
 import logging
 initial_start = time.time()
 
+import nltk
 import email
 from email import policy
 from email.parser import BytesParser
@@ -13,10 +14,10 @@ import pickle
 from bs4 import BeautifulSoup
 
 import os
-NLTK_DATA_DIR = os.path.join(os.getcwd(), 'nltk_data') 
+NLTK_DATA_DIR = os.path.join(os.getcwd(), 'nltk_data')
 if not os.path.exists(NLTK_DATA_DIR):
     os.makedirs(NLTK_DATA_DIR)
-nltk.data.path.append(NLTK_DATA_DIR)
+nltk.data.path.append(NLTK_DATA_DIR) # This line now has 'nltk' defined
 
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
