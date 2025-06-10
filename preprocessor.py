@@ -12,34 +12,28 @@ import re
 import pickle
 from bs4 import BeautifulSoup
 
-import nltk
-nltk.data.path.append('/opt/render/nltk_data')
-
-import nltk
 import os
-
-# Download NLTK data on first run
-try:
-    nltk.data.find('corpora/wordnet')
-except LookupError:
-    nltk.download('wordnet', download_dir='/opt/render/nltk_data')
-    nltk.download('punkt', download_dir='/opt/render/nltk_data')
-    nltk.download('stopwords', download_dir='/opt/render/nltk_data')
+NLTK_DATA_DIR = os.path.join(os.getcwd(), 'nltk_data') 
+if not os.path.exists(NLTK_DATA_DIR):
+    os.makedirs(NLTK_DATA_DIR)
+nltk.data.path.append(NLTK_DATA_DIR)
 
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
+
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 # Lazy loading stopwords with fallback
 def get_stopwords():
     try:
         return stopwords.words('english')
     except LookupError:
-        logger.info("Downloading NLTK stopwords...")
-        nltk.download('stopwords', download_dir='/opt/render/nltk_data')
+        logger.info(f"Downloading NLTK stopwords to {NLTK_DATA_DIR}...")
+        nltk.download('stopwords', download_dir=NLTK_DATA_DIR)
         return stopwords.words('english')
 
 # Lazy loading lemmatizer
@@ -47,10 +41,10 @@ def get_lemmatizer():
     try:
         return WordNetLemmatizer()
     except LookupError:
-        logger.info("Downloading NLTK wordnet...")
-        nltk.download('wordnet', download_dir='/opt/render/nltk_data')
+        logger.info(f"Downloading NLTK wordnet to {NLTK_DATA_DIR}...")
+        nltk.download('wordnet', download_dir=NLTK_DATA_DIR)
         return WordNetLemmatizer()
-
+    
 stop_words = get_stopwords()
 lem = get_lemmatizer()
 
