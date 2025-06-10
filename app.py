@@ -16,7 +16,6 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 @app.route('/')
 def index():
-    """Serve the main page"""
     try:
         return render_template('index.html')
     except Exception as e:
@@ -25,7 +24,6 @@ def index():
 
 @app.route('/health')
 def health_check():
-    """Health check endpoint for monitoring"""
     return jsonify({
         'status': 'healthy',
         'message': 'Email Spam Classification API is running'
@@ -33,7 +31,6 @@ def health_check():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    """Handle email file upload and classification"""
     try:
         # Check if file is present in request
         if 'email_file' not in request.files:
@@ -112,7 +109,6 @@ def upload_file():
 
 @app.route('/predict', methods=['POST'])
 def predict_api():
-    """API endpoint for programmatic access"""
     return upload_file()
 
 @app.errorhandler(413)
@@ -134,4 +130,4 @@ if __name__ == '__main__':
     debug = os.environ.get('FLASK_ENV') == 'development'
     
     logger.info(f"Starting Flask app on port {port}")
-    app.run(host='0.0.0.0', port=port, debug=debug)
+    app.run(host='0.0.0.0', port=port, debug=debug) 

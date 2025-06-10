@@ -99,7 +99,6 @@ except Exception as e:
 
 # Parse binary email file
 def email_bytesparser(file, filepath=False):
-    """Parse email from bytes or file path"""
     try:
         if filepath == False:
             parsed_email = BytesParser(policy=policy.default).parsebytes(file)
@@ -113,7 +112,6 @@ def email_bytesparser(file, filepath=False):
 
 # html parser
 def parse_text(text):
-    """Parse HTML content to extract text"""
     try:
         if text is None:
             return ""
@@ -128,7 +126,6 @@ def parse_text(text):
 
 # Extract required details
 def extract_to_df(parsed_email):
-    """Extract email features into a DataFrame"""
     try:
         body = ""
         content_type = "none"
@@ -177,7 +174,6 @@ def extract_to_df(parsed_email):
 
 # Drop unwanted feature
 def column_dropper(data, col):
-    """Drop specified columns from DataFrame"""
     transformed_df = data.copy()
     if isinstance(col, list):
         transformed_df.drop(columns=col, inplace=True)
@@ -189,7 +185,6 @@ def column_dropper(data, col):
 extra_space_remover = lambda x: re.sub(r'\s+', ' ', str(x)).strip() if pd.notna(x) else np.nan
 
 def clean_text(text):
-    """Clean and normalize text"""
     if pd.isna(text) or text == '':
         return np.nan
     
@@ -215,7 +210,6 @@ def clean_text(text):
 
 # Lemmatization and eliminating stopwords
 def processing_text(text, stopwords=stop_words):
-    """Process text with lemmatization and stopword removal"""
     if pd.isna(text) or text == '':
         return "blank"
     
@@ -230,7 +224,6 @@ def processing_text(text, stopwords=stop_words):
         return "blank"
 
 def feature_engineering1(data):
-    """Perform feature engineering on email data"""
     try:
         # Creating New bool feature 'Replied_mail'
         data['Replied_mail'] = np.where(pd.isna(data['In-reply-to']), 0, 1)
@@ -279,7 +272,6 @@ def feature_engineering1(data):
 
 # Encoding categorical features
 def feature_encoding(data):
-    """Encode categorical features"""
     try:
         encoded_content_type = ohe.transform(data[['Content-type']])
         encoded_df = pd.DataFrame(encoded_content_type, columns=ohe.get_feature_names_out(['Content-type']))
@@ -294,7 +286,6 @@ def feature_encoding(data):
 
 # Scaling features with values > 1 or < 0
 def feature_scaling(data):
-    """Scale numerical features"""
     try:
         recievers_cnt = rec_cnt_scaler.transform(data[['Recievers_count']])
         data['Recievers_count'] = recievers_cnt
@@ -311,7 +302,6 @@ def feature_scaling(data):
 
 # Applying lemmatization of text features
 def apply_lemmatization(data):
-    """Apply lemmatization to text features"""
     try:
         data['Subject'] = data['Subject'].apply(processing_text)
         data['Full_content'] = data['Full_content'].apply(processing_text)
@@ -323,7 +313,6 @@ def apply_lemmatization(data):
 
 # Vectorization of text features
 def vectorization(data):
-    """Vectorize text features using TF-IDF"""
     try:
         content_vectors = tfidf_content.transform(data['Full_content']).toarray()
         subject_vectors = tfidf_subject.transform(data['Subject']).toarray()
@@ -334,7 +323,6 @@ def vectorization(data):
     
 # Concatenating the vectors of texts and numeric features
 def data_concatenation(content_vectors, subject_vectors, data):
-    """Concatenate all features into final feature matrix"""
     try:
         X_1 = np.concatenate((content_vectors, subject_vectors), axis=1)
             
@@ -349,13 +337,12 @@ def data_concatenation(content_vectors, subject_vectors, data):
         raise Exception(f"Error in data concatenation: {str(e)}")
 
 def pipeline(file, filepath=False):
-    """Complete preprocessing pipeline"""
     try:
         start = time.time()
         parsed_mail = email_bytesparser(file, filepath)
         end = round(time.time()-start, 2)
         logger.info(f'✔️ Email binary file parsing \t\t{end}s')
-        
+         
         start = time.time()
         data = extract_to_df(parsed_mail)
         end = round(time.time()-start, 2)
@@ -397,7 +384,6 @@ def pipeline(file, filepath=False):
         raise Exception(f"Error in preprocessing pipeline: {str(e)}")
 
 def predictor(data):
-    """Make spam prediction using the trained model"""
     try:
         start = time.time()
         pred = model.predict(data, verbose=0)
