@@ -89,12 +89,12 @@ except Exception as e:
 
 start = time.time()
 try:
-    model = tf.keras.models.load_model("dl_model/ann_model.h5")
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    with open('ml_model/mnb_model.pkl', 'rb') as file:
+        model = pickle.load(file)
     end = round(time.time()-start, 2)
-    logger.info(f'✔️ DL model imported in {end}s')
+    logger.info(f'✔️ ML model imported in {end}s')
 except Exception as e:
-    logger.error(f"Failed to load deep learning model: {str(e)}")
+    logger.error(f"Failed to load machine learning model: {str(e)}")
     raise
 
 # Parse binary email file
@@ -267,8 +267,8 @@ def feature_engineering1(data):
         
         return data
     except Exception as e:
-        logger.error(f"Error in feature engineering: {str(e)}")
-        raise Exception(f"Error in feature engineering: {str(e)}")
+        logger.error(f" feature engineering: {str(e)}")
+        raise Exception(f" feature engineering: {str(e)}")
 
 # Encoding categorical features
 def feature_encoding(data):
@@ -281,8 +281,8 @@ def feature_encoding(data):
         data = column_dropper(data, 'Content-type')
         return data
     except Exception as e:
-        logger.error(f"Error in feature encoding: {str(e)}")
-        raise Exception(f"Error in feature encoding: {str(e)}")
+        logger.error(f" feature encoding: {str(e)}")
+        raise Exception(f" feature encoding: {str(e)}")
 
 # Scaling features with values > 1 or < 0
 def feature_scaling(data):
@@ -297,8 +297,8 @@ def feature_scaling(data):
         data['content_char'] = cont_char
         return data
     except Exception as e:
-        logger.error(f"Error in feature scaling: {str(e)}")
-        raise Exception(f"Error in feature scaling: {str(e)}")
+        logger.error(f" feature scaling: {str(e)}")
+        raise Exception(f" feature scaling: {str(e)}")
 
 # Applying lemmatization of text features
 def apply_lemmatization(data):
@@ -308,8 +308,8 @@ def apply_lemmatization(data):
         data.fillna("blank", inplace=True)
         return data
     except Exception as e:
-        logger.error(f"Error in lemmatization: {str(e)}")
-        raise Exception(f"Error in lemmatization: {str(e)}")
+        logger.error(f" lemmatization: {str(e)}")
+        raise Exception(f" lemmatization: {str(e)}")
 
 # Vectorization of text features
 def vectorization(data):
@@ -318,8 +318,8 @@ def vectorization(data):
         subject_vectors = tfidf_subject.transform(data['Subject']).toarray()
         return content_vectors, subject_vectors, data
     except Exception as e:
-        logger.error(f"Error in vectorization: {str(e)}")
-        raise Exception(f"Error in vectorization: {str(e)}")
+        logger.error(f" vectorization: {str(e)}")
+        raise Exception(f" vectorization: {str(e)}")
     
 # Concatenating the vectors of texts and numeric features
 def data_concatenation(content_vectors, subject_vectors, data):
@@ -333,8 +333,8 @@ def data_concatenation(content_vectors, subject_vectors, data):
         final_X = np.concatenate((X_1, X_2), axis=1)
         return final_X
     except Exception as e:
-        logger.error(f"Error in data concatenation: {str(e)}")
-        raise Exception(f"Error in data concatenation: {str(e)}")
+        logger.error(f" data concatenation: {str(e)}")
+        raise Exception(f" data concatenation: {str(e)}")
 
 def pipeline(file, filepath=False):
     try:
@@ -380,17 +380,17 @@ def pipeline(file, filepath=False):
         
         return data
     except Exception as e:
-        logger.error(f"Error in preprocessing pipeline: {str(e)}")
-        raise Exception(f"Error in preprocessing pipeline: {str(e)}")
+        logger.error(f" preprocessing pipeline: {str(e)}")
+        raise Exception(f" preprocessing pipeline: {str(e)}")
 
 def predictor(data):
     try:
         start = time.time()
-        pred = model.predict(data, verbose=0)
-        pred = float(pred[0][0])
+        pred = model.predict(data)
+        pred = float(pred[0])
         end = round(time.time()-start, 2)
         logger.info(f'✔️ Prediction \t\t{end}s')
         return pred
     except Exception as e:
-        logger.error(f"Error in prediction: {str(e)}")
-        raise Exception(f"Error in prediction: {str(e)}")
+        logger.error(f" prediction: {str(e)}")
+        raise Exception(f" prediction: {str(e)}")
